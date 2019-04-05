@@ -6,6 +6,10 @@
 #define LED3_bm 0x00080000
 #define LED7_bm 0x00800000
 
+#define S0_bm (1<<4)
+#define S1_bm (1<<6)
+#define S2_bm (1<<5)
+#define S3_bm (1<<7)
 
 void Delay(int iDelayMiliSeconds)
 {
@@ -28,58 +32,61 @@ void LedInit()
 
 void LedOn(unsigned char ucLedIndeks)
 {
-	if(ucLedIndeks == 0)
-	{
-		IO1SET = IO1SET | LED0_bm ;
-	}
-	else if(ucLedIndeks == 1)
-	{
-		IO1SET = IO1SET | LED1_bm ;
-	}
-	else if(ucLedIndeks == 2)
-	{
-		IO1SET = IO1SET | LED2_bm ;
-	}
-	else if(ucLedIndeks == 3)
-	{
-		IO1SET = IO1SET | LED3_bm ;
-	}
+	IO1CLR =  (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
+	
+	switch(ucLedIndeks)
+		{
+		case(0):
+			IO1SET = IO1SET | LED0_bm ;
+			break;
+		
+		case(1):
+			IO1SET = IO1SET | LED1_bm ;
+			break;
+		
+		case(2):
+			IO1SET = IO1SET | LED2_bm ;
+			break;
+		
+		case(3):
+			IO1SET = IO1SET | LED3_bm ;
+			break;
+		}
 }
 
 int ReadButton1()
 { 
+	enum ButtonState{RELEASED,PRESSED};
+	unsigned char ucButtonState;
 	
-	char cLedNumber ;
-	
-	enum ButtonState{RELEASED=0, PRESSED=1} ;
+	ucButtonState = (~(IO0PIN) & S0_bm);
 
-	IO0DIR = 0x0 ;
-	IO1CLR = 0xFFFFFFFF ;
-
-	cLedNumber = IO0PIN & 0x40 ;
-	switch(cLedNumber)
-	{
-		case 0x40:
-			LedOn(RELEASED);
+	switch(ucButtonState){
+		case(1):
+			return PRESSED;
+		
+		default:
 			return RELEASED;
-		
-		case 0:
-			LedOn(PRESSED);
-			return PRESSED ;
-		
-		default: 
-			return 0;
+	
 	}
 	
+	
+	/*if(~(IO0PIN) & S0_bm)
+	{
+		return PRESSED;
+	}
+	else 
+		return RELEASED; */
 }
 
 int main()
 {
 	LedInit() ;
-	Delay(1000);
 	
 	while(1)
 	{
-		ReadButton1();
+		if(ReadButton()){
+		
+		}
 	}
 }

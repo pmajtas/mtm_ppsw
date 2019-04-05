@@ -21,23 +21,20 @@ void KeyboardInit(void)
 int ReadButton1(void)
 { 
 	
-	char cLedNumber ;
+	char cButtonNumber ;
 	
 	enum ButtonState{RELEASED, PRESSED} ;
 
 
-	cLedNumber = IO0PIN & 0x40 ;
+	cButtonNumber = IO0PIN & 0x40 ;
 
-	switch(cLedNumber)
+	switch(cButtonNumber)
 	{
 		case 0x40:
 			return RELEASED;
 		
-		case 0:
-			return PRESSED ;
-		
-		default: 
-			return 0;
+		default:
+			return PRESSED;
 	}
 	
 }

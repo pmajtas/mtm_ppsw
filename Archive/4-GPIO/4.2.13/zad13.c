@@ -23,23 +23,16 @@ void LedInit()
 
 int main()
 {
+	unsigned char ucLedCounter;
 	LedInit() ;
 	
 	while(1)
 	{
-		
-		IO1SET = IO1SET | LED0_bm ;
-		Delay(250) ;
-		IO1CLR = IO1CLR | LED0_bm ;
-		IO1SET = IO1SET | LED1_bm ;
-		Delay(250) ;
-		IO1CLR = IO1CLR | LED1_bm ;
-		IO1SET = IO1SET | LED2_bm ;
-		Delay(250) ;
-		IO1CLR = IO1CLR | LED2_bm ;
-		IO1SET = IO1SET | LED3_bm ;
-		Delay(250) ;
-		IO1CLR = IO1CLR | LED3_bm ;
+		for(ucLedCounter=0; ucLedCounter <4; ucLedCounter++){
+			IO1SET = LED0_bm << (ucLedCounter);
+			IO1CLR = LED0_bm << (ucLedCounter+3)%4;
+			Delay(250);
+		}
 		
 	}
 }
