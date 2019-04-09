@@ -1,4 +1,4 @@
-#include <LPC21xx.H> 
+#include <LPC21xx.H>  
 
 #define LED0_bm (1<<16) 
 #define LED1_bm (1<<17)
@@ -10,7 +10,7 @@
 #define S2_bm (1<<5)
 #define S3_bm (1<<7)
 
-typedef enum eDirections{Left,Right,Nothing} eDirections;
+enum eDirections{Left,Right};
 typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
 
 
@@ -111,23 +111,22 @@ void LedStepRight(void)
 }
 
 enum LedState{STAND_STILL, LED_RIGHT};
-enum LedState eLedState = STAND_STILL; 
+enum LedState eLedState = LED_RIGHT; 
 
 int main()
 {
-	unsigned char ucLedStepCounter;
 	while(1)
 	{
 		switch(eLedState){
 			case STAND_STILL:
-				if(eKeyboardRead()==BUTTON_0){eLedState=LED_RIGHT;}
+				if(eKeyboardRead()==BUTTON_1){
+					eLedState=LED_RIGHT;}
 				break;
 			
 			case LED_RIGHT:
-				for(ucLedStepCounter=0;ucLedStepCounter<3;ucLedStepCounter++){
 				LedStepRight();
-				Delay(60);}
-				eLedState = STAND_STILL;
+				if(eKeyboardRead()==BUTTON_0){
+					eLedState=STAND_STILL;}		
 				break;
 		} 
 	}

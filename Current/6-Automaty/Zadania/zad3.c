@@ -4,7 +4,7 @@
 #define LED1_bm (1<<17)
 #define LED2_bm (1<<18)
 #define LED3_bm (1<<19)
-#define LED7_bm (1<<23)
+
 
 #define S0_bm (1<<5)
 #define S1_bm (1<<7)
@@ -57,49 +57,49 @@ int eKeyboardRead()
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm | LED7_bm ;
-	IO1SET = IO1SET | LED0_bm | LED7_bm ;
+	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm  ;
+	IO1SET = IO1SET | LED0_bm  ;
 }
 
 
 void LedOn(unsigned char ucLedIndeks)
 {
-	IO1CLR = IO1CLR | (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
+	IO1CLR =  (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
 	
-	if(ucLedIndeks == 0)
-	{
-		IO1SET = IO1SET | LED0_bm ;
-	}
-	else if(ucLedIndeks == 1)
-	{
-		IO1SET = IO1SET | LED1_bm ;
-	}
-	else if(ucLedIndeks == 2)
-	{
-		IO1SET = IO1SET | LED2_bm ;
-	}
-	else if(ucLedIndeks == 3)
-	{
-		IO1SET = IO1SET | LED3_bm ;
-	}
+	switch(ucLedIndeks)
+		{
+		case(0):
+			IO1SET =  LED0_bm ;
+			break;
+		
+		case(1):
+			IO1SET =  LED1_bm ;
+			break;
+		
+		case(2):
+			IO1SET =  LED2_bm ;
+			break;
+		
+		case(3):
+			IO1SET =  LED3_bm ;
+			break;
+		}
 }
 
-enum eDirections LedStep(enum  eDirections DirectStep)
+void LedStep(enum eDirections eDirection)
 {
-	typedef enum eDirections eDirection ;
-	static unsigned int LedPoint  ;
+	static unsigned char ucLedPoint=0;
 	
-	if(DirectStep==Left)
+	if(eDirection==0)
 	{
-		LedPoint++ ;
-		LedOn(LedPoint%4);
+		ucLedPoint++;
+		LedOn(ucLedPoint%4);
 	}
-	else if(DirectStep==Right)
+	else if(eDirection==1)
 	{
-		LedPoint--;
-		LedOn(LedPoint%4);
+		ucLedPoint--;
+		LedOn(ucLedPoint%4);
 	}
-	return Nothing;
 }
 
 void LedStepLeft(void)
@@ -125,13 +125,15 @@ int main()
 			case LED_LEFT:
 				LedStepRight();
 				ucLED_STEP_COUNTER= (ucLED_STEP_COUNTER+1)%3;
-				if(ucLED_STEP_COUNTER==2){eLedState=LED_RIGHT;}
+				if(ucLED_STEP_COUNTER==2){
+					eLedState=LED_RIGHT;}
 				break;
 			
 			case LED_RIGHT:
 				LedStepLeft();
 				ucLED_STEP_COUNTER = (ucLED_STEP_COUNTER+1)%3;
-				if(ucLED_STEP_COUNTER==2){eLedState = LED_LEFT;}
+				if(ucLED_STEP_COUNTER==2){
+					eLedState = LED_LEFT;}
 				break;
 		}
 	Delay(200); 

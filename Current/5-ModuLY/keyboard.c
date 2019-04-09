@@ -18,25 +18,21 @@ void KeyboardInit(void)
 	IO0DIR = IO0DIR & ~( S0_bm | S1_bm | S2_bm | S3_bm) ;
 }
 
-int ReadButton1(void)
+int ReadButton1()
 { 
+	enum ButtonState{RELEASED,PRESSED};
+	unsigned char ucButtonState;
 	
-	char cButtonNumber ;
-	
-	enum ButtonState{RELEASED, PRESSED} ;
+	ucButtonState = (~(IO0PIN) & S0_bm);
 
-
-	cButtonNumber = IO0PIN & 0x40 ;
-
-	switch(cButtonNumber)
-	{
-		case 0x40:
-			return RELEASED;
+	switch(ucButtonState){
+		case(0x10):
+			return PRESSED;
 		
 		default:
-			return PRESSED;
-	}
+			return RELEASED;
 	
+	}
 }
 
 enum eKeyboardButtons eKeyboardRead(void)
