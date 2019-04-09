@@ -62,21 +62,13 @@ int ReadButton1()
 	ucButtonState = (~(IO0PIN) & S0_bm);
 
 	switch(ucButtonState){
-		case(1):
+		case(0x10):
 			return PRESSED;
 		
 		default:
 			return RELEASED;
 	
 	}
-	
-	
-	/*if(~(IO0PIN) & S0_bm)
-	{
-		return PRESSED;
-	}
-	else 
-		return RELEASED; */
 }
 
 int main()
@@ -85,8 +77,10 @@ int main()
 	
 	while(1)
 	{
-		if(ReadButton()){
-		
+		if(ReadButton1()){
+			LedOn(0);
 		}
+		else
+			IO1CLR=LED0_bm ;
 	}
 }

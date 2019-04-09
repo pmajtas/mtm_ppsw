@@ -11,8 +11,8 @@
 #define S2_bm 0x0000000020
 #define S3_bm 0x0000000080
 
-static unsigned int LedPoint = 3;
-typedef enum eKeyboardButtons{BUTTON_0=0, BUTTON_1=1, BUTTON_2=2, BUTTON_3,RELEASED } eKeyboardButtons;
+static unsigned int LedPoint ;
+typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
 
 
 void Delay(int iDelayMiliSeconds)
@@ -29,64 +29,56 @@ void Delay(int iDelayMiliSeconds)
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm | LED7_bm ;
+	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
 	IO1SET = IO1SET | LED0_bm ;
 }
 
 
 void LedOn(unsigned char ucLedIndeks)
 {
-	IO1CLR = IO1CLR | (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
+	IO1CLR =  (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
 	
-	if(ucLedIndeks == 0)
-	{
-		IO1SET = IO1SET | LED0_bm ;
-	}
-	else if(ucLedIndeks == 1)
-	{
-		IO1SET = IO1SET | LED1_bm ;
-	}
-	else if(ucLedIndeks == 2)
-	{
-		IO1SET = IO1SET | LED2_bm ;
-	}
-	else if(ucLedIndeks == 3)
-	{
-		IO1SET = IO1SET | LED3_bm ;
-	}
-}
-
-
-void KeyboardInit()
-{
-	IO0DIR = IO0DIR & ~( S0_bm | S1_bm | S2_bm | S3_bm) ;
+	switch(ucLedIndeks)
+		{
+		case(0):
+			IO1SET =  LED0_bm ;
+			break;
+		
+		case(1):
+			IO1SET =  LED1_bm ;
+			break;
+		
+		case(2):
+			IO1SET =  LED2_bm ;
+			break;
+		
+		case(3):
+			IO1SET =  LED3_bm ;
+			break;
+		}
 }
 
 int ReadButton1()
 { 
+	enum ButtonState{RELEASED,PRESSED};
+	unsigned char ucButtonState;
 	
-	char cLedNumber ;
-	
-	enum ButtonState{RELEASED, PRESSED} ;
+	ucButtonState = (~(IO0PIN) & S0_bm);
 
-
-	cLedNumber = IO0PIN & 0x40 ;
-
-	switch(cLedNumber)
-	{
-		case 0x40:
-			LedOn(RELEASED);
+	switch(ucButtonState){
+		case(0x10):
+			return PRESSED;
+		
+		default:
 			return RELEASED;
-		
-		case 0:
-			LedOn(PRESSED);
-			return PRESSED ;
-		
-		default: 
-			return 0;
-	}
 	
+	}
 }
+
+void KeyboardInit(void){
+	IO0DIR = IO0DIR & ~(S0_bm | S1_bm | S2_bm | S3_bm) ;
+}
+
 
 enum eKeyboardButtons eKeyboardRead()
 {
@@ -131,19 +123,15 @@ void StepRight()
 
 int main()
 {
+	int cLedCounter;
 	KeyboardInit() ;
 	LedInit() ;
 	
 	while(1)
 	{
-		StepRight(); IO1SET = IO1SET | LED0_bm | LED1_bm ;
-		Delay(100);
-		StepRight(); IO1SET = IO1SET | LED0_bm  ;
-		Delay(100);
-		StepRight(); 
-		Delay(100);
-		StepRight(); IO1SET = IO1SET | LED0_bm | LED1_bm | LED2_bm ;
-		Delay(100);
-
+		for(cLedCounter=0; cLedCounter <4; cLedCounter++){
+		IO1SET = LED3_bm >> cLedCounter;
+		}
+		IO1CLR = LED0_bm | LED1_bm | LED2_bm | LED3_bm;
 	}
 }
