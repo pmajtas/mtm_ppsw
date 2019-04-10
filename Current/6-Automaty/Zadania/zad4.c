@@ -116,11 +116,15 @@ enum LedState eLedState = STAND_STILL;
 int main()
 {
 	unsigned char ucLedStepCounter;
+	LedInit();
+	
 	while(1)
 	{
 		switch(eLedState){
 			case STAND_STILL:
-				if(eKeyboardRead()==BUTTON_0){eLedState=LED_RIGHT;}
+				if(eKeyboardRead()==BUTTON_0){
+					while(eKeyboardRead()==BUTTON_0){}
+					eLedState=LED_RIGHT;}
 				break;
 			
 			case LED_RIGHT:

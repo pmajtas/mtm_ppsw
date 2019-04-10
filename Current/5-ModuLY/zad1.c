@@ -1,4 +1,3 @@
-#include <LPC21xx.H> 
 #include "led.h"
 #include "keyboard.h"
 
@@ -34,5 +33,6 @@ int main()
 			default:
 				break;
 		}
+		Delay(200);
 	}
 }

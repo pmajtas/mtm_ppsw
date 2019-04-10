@@ -117,7 +117,9 @@ enum LedState eLedState = LED_LEFT;
 
 int main()
 {
+
 	static unsigned char ucLED_STEP_COUNTER =0;
+	LedInit();
 	
 	while(1)
 	{

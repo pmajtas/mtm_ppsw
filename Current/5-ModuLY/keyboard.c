@@ -43,12 +43,12 @@ enum eKeyboardButtons eKeyboardRead(void)
 		return BUTTON_0 ;
 	}
 	
-	else if((IO0PIN & S1_bm) == 0x0)
+	else if((IO0PIN & S1_bm) == 0x0) // przy wcisnieciu daje 0, przy puszczeniu daje 0x40
 	{
 		return BUTTON_1 ;
 	}
 	
-	else if((IO0PIN & S2_bm) == 0x0)
+	else if((IO0PIN & S2_bm) == 0x0) // // przy wcisnieciu daje 0, przy puszczeniu daje 0x20
 	{
 		return BUTTON_2 ;
 	}
