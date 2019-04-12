@@ -10,7 +10,7 @@
 #define S2_bm (1<<5)
 #define S3_bm (1<<7)
 
-typedef enum eDirections{Left,Right,Nothing} eDirections;
+typedef enum eDirections{Left,Right} eDirections;
 typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
 
 
@@ -55,8 +55,8 @@ enum eKeyboardButtons eKeyboardRead()
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
-	IO1SET = IO1SET | LED0_bm  ;
+	IO1DIR = LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
+	IO1SET =  LED0_bm  ;
 }
 
 
@@ -115,7 +115,7 @@ enum LedState eLedState = STAND_STILL;
 
 int main()
 {
-	unsigned char ucLedStepCounter;
+	unsigned char ucLedStepCounter=0;
 	LedInit();
 	
 	while(1)
@@ -128,11 +128,12 @@ int main()
 				break;
 			
 			case LED_RIGHT:
-				for(ucLedStepCounter=0;ucLedStepCounter<3;ucLedStepCounter++){
 				LedStepRight();
-				Delay(60);}
-				eLedState = STAND_STILL;
+				ucLedStepCounter = (ucLedStepCounter+1)%3;
+				if(ucLedStepCounter==2){
+					eLedState = STAND_STILL;}
 				break;
-		} 
+		}
+		Delay(100);
 	}
 }

@@ -55,8 +55,8 @@ enum eKeyboardButtons eKeyboardRead()
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
-	IO1SET = IO1SET | LED0_bm  ;
+	IO1DIR =  LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
+	IO1SET =  LED0_bm  ;
 }
 
 
@@ -115,6 +115,7 @@ enum LedState eLedState = LED_RIGHT;
 
 int main()
 {
+	LedInit();
 	while(1)
 	{
 		switch(eLedState){
@@ -129,5 +130,6 @@ int main()
 					eLedState=STAND_STILL;}		
 				break;
 		} 
+		Delay(150);
 	}
 }

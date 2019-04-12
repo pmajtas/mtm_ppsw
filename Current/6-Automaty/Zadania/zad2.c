@@ -4,7 +4,6 @@
 #define LED1_bm (1<<17)
 #define LED2_bm (1<<18)
 #define LED3_bm (1<<19)
-#define LED7_bm (1<<23)
 
 #define S0_bm (1<<5)
 #define S1_bm (1<<7)
@@ -26,8 +25,8 @@ void Delay(int iDelayMiliSeconds)
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm | LED7_bm ;
-	IO1SET = IO1SET | LED0_bm | LED7_bm ;
+	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
+	IO1SET =  LED0_bm  ;
 }
 
 
@@ -53,22 +52,20 @@ void LedOn(unsigned char ucLedIndeks)
 	}
 }
 
-enum eDirections LedStep(enum  eDirections DirectStep)
+void LedStep(enum eDirections eDirection)
 {
-	typedef enum eDirections eDirection ;
-	static unsigned int LedPoint  ;
+	static unsigned char ucLedPoint=0;
 	
-	if(DirectStep==Left)
+	if(eDirection==0)
 	{
-		LedPoint++ ;
-		LedOn(LedPoint%4);
+		ucLedPoint++;
+		LedOn(ucLedPoint%4);
 	}
-	else if(DirectStep==Right)
+	else if(eDirection==1)
 	{
-		LedPoint--;
-		LedOn(LedPoint%4);
+		ucLedPoint--;
+		LedOn(ucLedPoint%4);
 	}
-	return Nothing;
 }
 
 void LedStepLeft(void)
@@ -86,6 +83,8 @@ enum LedState eLedState = STATE0;
 
 int main()
 {
+	LedInit();
+	
 	while(1)
 	{
 		switch(eLedState){
@@ -122,6 +121,4 @@ int main()
 		}
 Delay(200); 
 	}
-	
-	return 0;
 }

@@ -11,7 +11,9 @@
 #define S2_bm (1<<6)
 #define S3_bm (1<<8)
 
-typedef enum eDirections{Left,Right,Nothing} eDirections;
+typedef enum eDirections{Left,Right} eDirections;
+typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
+
 
 void Delay(int iDelayMiliSeconds)
 {
@@ -24,66 +26,61 @@ void Delay(int iDelayMiliSeconds)
 	}
 }
 
-int eKeyboardRead()
+enum eKeyboardButtons eKeyboardRead()
 {
-	enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } ;
-
-	IO1CLR = 0xFFFFFFFF ;
 
 	if((IO0PIN & S0_bm) == 0x0)
 	{
-		return 0 ;
+		return BUTTON_0 ;
 	}
 	
 	else if((IO0PIN & S1_bm) == 0x0)
 	{
-		return 1 ;
+		return BUTTON_1 ;
 	}
 	
 	else if((IO0PIN & S2_bm) == 0x0)
 	{
-		return 2 ;
+		return BUTTON_2 ;
 	}
 	
 	else if((IO0PIN & S3_bm) == 0x0)
 	{
-		return 3 ;
+		return BUTTON_3 ;
 	}
 	else
 	{
-		return 4 ; 
+		return RELEASED ; 
 	}
 }
 
 void LedInit()
 {
-	IO1DIR = IO1DIR | LED0_bm | LED1_bm | LED2_bm | LED3_bm  ;
-	IO1SET = IO1SET | LED0_bm  ;
+	IO1DIR =  LED0_bm | LED1_bm | LED2_bm | LED3_bm  ;
+	IO1SET =  LED0_bm  ;
 }
 
 
 void LedOn(unsigned char ucLedIndeks)
 {
-	IO1CLR =  (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
+	IO1CLR = IO1CLR | (LED0_bm | LED1_bm | LED2_bm | LED3_bm );
 	
-	switch(ucLedIndeks)
-		{
-		case(0):
-			IO1SET =  LED0_bm ;
-			break;
-		
-		case(1):
-			IO1SET =  LED1_bm ;
-			break;
-		
-		case(2):
-			IO1SET =  LED2_bm ;
-			break;
-		
-		case(3):
-			IO1SET =  LED3_bm ;
-			break;
-		}
+	if(ucLedIndeks == 0)
+	{
+		IO1SET = IO1SET | LED0_bm ;
+	}
+	else if(ucLedIndeks == 1)
+	{
+		IO1SET = IO1SET | LED1_bm ;
+	}
+	else if(ucLedIndeks == 2)
+	{
+		IO1SET = IO1SET | LED2_bm ;
+	}
+	else if(ucLedIndeks == 3)
+	{
+		IO1SET = IO1SET | LED3_bm ;
+	}
 }
 
 void LedStep(enum eDirections eDirection)
@@ -118,7 +115,7 @@ enum LedState eLedState = LED_LEFT;
 int main()
 {
 
-	static unsigned char ucLED_STEP_COUNTER =0;
+	static unsigned char ucLed_Step_Counter =0;
 	LedInit();
 	
 	while(1)
@@ -126,15 +123,15 @@ int main()
 		switch(eLedState){
 			case LED_LEFT:
 				LedStepRight();
-				ucLED_STEP_COUNTER= (ucLED_STEP_COUNTER+1)%3;
-				if(ucLED_STEP_COUNTER==2){
+				ucLed_Step_Counter= (ucLed_Step_Counter+1)%3;
+				if(ucLed_Step_Counter==2){
 					eLedState=LED_RIGHT;}
 				break;
 			
 			case LED_RIGHT:
 				LedStepLeft();
-				ucLED_STEP_COUNTER = (ucLED_STEP_COUNTER+1)%3;
-				if(ucLED_STEP_COUNTER==2){
+				ucLed_Step_Counter = (ucLed_Step_Counter+1)%3;
+				if(ucLed_Step_Counter==2){
 					eLedState = LED_LEFT;}
 				break;
 		}
