@@ -122,6 +122,7 @@ int main()
 {
 LedInit();
 KeyboardInit();
+unsigned char ucLedStepCounter=0;
 	
 	while(1) 
 	{
@@ -131,18 +132,28 @@ KeyboardInit();
 					eLedState= LED_LEFT;}
 				else if(eKeyboardRead()==BUTTON_2){
 					eLedState = LED_RIGHT;}
+				else{
+					eLedState = STAND_STILL;}
 				break;
 					
 			case LED_LEFT :
-				LedStepLeft();
 				if(eKeyboardRead()==BUTTON_1){
 					eLedState = STAND_STILL;}
+				else{
+					LedStepLeft();
+					eLedState = LED_LEFT;}
 				break;
 			
 			case LED_RIGHT :
-				LedStepRight();
 				if(eKeyboardRead()==BUTTON_1){
-					eLedState=STAND_STILL;}		
+					eLedState=STAND_STILL;}
+				else if(eKeyboardRead()==BUTTON_0){
+					LedStepRight();
+}
+				else{
+					LedStepRight();
+					eLedState=LED_RIGHT;}
+					
 				break;
 					
 			default:

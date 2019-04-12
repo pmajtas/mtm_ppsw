@@ -122,6 +122,8 @@ int main()
 			case STAND_STILL:
 				if(eKeyboardRead()==BUTTON_1){
 					eLedState=LED_RIGHT;}
+				else{
+					}
 				break;
 			
 			case LED_RIGHT:
