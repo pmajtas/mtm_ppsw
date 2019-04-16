@@ -120,9 +120,9 @@ enum LedState eLedState = STAND_STILL;
 
 int main()
 {
+unsigned char ucLedStepCounter;
 LedInit();
 KeyboardInit();
-unsigned char ucLedStepCounter=0;
 	
 	while(1) 
 	{
@@ -148,8 +148,10 @@ unsigned char ucLedStepCounter=0;
 				if(eKeyboardRead()==BUTTON_1){
 					eLedState=STAND_STILL;}
 				else if(eKeyboardRead()==BUTTON_0){
-					LedStepRight();
-}
+					for(ucLedStepCounter=0;ucLedStepCounter<10;ucLedStepCounter++){
+						LedStepRight();}
+					LedStepLeft();
+					eLedState = LED_LEFT;}
 				else{
 					LedStepRight();
 					eLedState=LED_RIGHT;}
@@ -159,6 +161,5 @@ unsigned char ucLedStepCounter=0;
 			default:
 				break;
 		}
-		Delay(100);
 	}
 }
