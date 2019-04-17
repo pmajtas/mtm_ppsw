@@ -398,9 +398,9 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>zad4.c</FileName>
+              <FileName>zad6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Zadania\zad4.c</FilePath>
+              <FilePath>.\Zadania\zad6.c</FilePath>
             </File>
           </Files>
         </Group>

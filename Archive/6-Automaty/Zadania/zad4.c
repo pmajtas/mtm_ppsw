@@ -1,4 +1,4 @@
-#include <LPC21xx.H>  
+#include <LPC21xx.H> 
 
 #define LED0_bm (1<<16) 
 #define LED1_bm (1<<17)
@@ -10,7 +10,7 @@
 #define S2_bm (1<<5)
 #define S3_bm (1<<7)
 
-enum eDirections{Left,Right};
+typedef enum eDirections{Left,Right} eDirections;
 typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
 
 
@@ -56,13 +56,9 @@ enum eKeyboardButtons eKeyboardRead()
 void LedInit()
 {
 	IO1DIR = LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
-	IO1SET = LED0_bm  ;
+	IO1SET =  LED0_bm  ;
 }
 
-void KeyboardInit()
-{
-	IO0DIR = IO0DIR & ~( S0_bm | S1_bm | S2_bm | S3_bm) ;
-}
 
 void LedOn(unsigned char ucLedIndeks)
 {
@@ -104,7 +100,6 @@ void LedStep(enum eDirections eDirection)
 	}
 }
 
-
 void LedStepLeft(void)
 {	
 	LedStep(Left);
@@ -115,51 +110,33 @@ void LedStepRight(void)
 	LedStep(Right);
 }
 
-enum LedState{STAND_STILL, LED_RIGHT,LED_LEFT};
+enum LedState{STAND_STILL, LED_RIGHT};
 enum LedState eLedState = STAND_STILL; 
 
 int main()
 {
-unsigned char ucLedStepCounter;
-LedInit();
-KeyboardInit();
+	unsigned char ucLedStepCounter=0;
+	LedInit();
 	
-	while(1) 
+	while(1)
 	{
 		switch(eLedState){
 			case STAND_STILL:
 				if(eKeyboardRead()==BUTTON_0){
-					eLedState= LED_LEFT;}
-				else if(eKeyboardRead()==BUTTON_2){
-					eLedState = LED_RIGHT;}
+					eLedState=LED_RIGHT;}
 				else{
 					eLedState = STAND_STILL;}
-				break;
-					
-			case LED_LEFT :
-				if(eKeyboardRead()==BUTTON_1){
-					eLedState = STAND_STILL;}
-				else{
-					LedStepLeft();
-					eLedState = LED_LEFT;}
 				break;
 			
-			case LED_RIGHT :
-				if(eKeyboardRead()==BUTTON_1){
-					eLedState=STAND_STILL;}
-				else if(eKeyboardRead()==BUTTON_0){
-					for(ucLedStepCounter=0;ucLedStepCounter<10;ucLedStepCounter++){
-						LedStepRight();}
-					LedStepLeft();
-					eLedState = LED_LEFT;}
+			case LED_RIGHT:
+				if(ucLedStepCounter==2){
+					eLedState = STAND_STILL;}
 				else{
 					LedStepRight();
-					eLedState=LED_RIGHT;}
-					
-				break;
-					
-			default:
+					ucLedStepCounter = (ucLedStepCounter+1)%3;
+					eLedState = STAND_STILL;}
 				break;
 		}
+		Delay(100);
 	}
 }

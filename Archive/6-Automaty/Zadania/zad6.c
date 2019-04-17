@@ -1,4 +1,4 @@
-#include <LPC21xx.H> 
+#include <LPC21xx.H>  
 
 #define LED0_bm (1<<16) 
 #define LED1_bm (1<<17)
@@ -10,7 +10,7 @@
 #define S2_bm (1<<5)
 #define S3_bm (1<<7)
 
-typedef enum eDirections{Left,Right} eDirections;
+enum eDirections{Left,Right};
 typedef enum eKeyboardButtons{BUTTON_0, BUTTON_1, BUTTON_2, BUTTON_3,RELEASED } eKeyboardButtons;
 
 
@@ -56,9 +56,13 @@ enum eKeyboardButtons eKeyboardRead()
 void LedInit()
 {
 	IO1DIR = LED0_bm | LED1_bm | LED2_bm | LED3_bm ;
-	IO1SET =  LED0_bm  ;
+	IO1SET = LED0_bm  ;
 }
 
+void KeyboardInit()
+{
+	IO0DIR = IO0DIR & ~( S0_bm | S1_bm | S2_bm | S3_bm) ;
+}
 
 void LedOn(unsigned char ucLedIndeks)
 {
@@ -86,7 +90,7 @@ void LedOn(unsigned char ucLedIndeks)
 
 void LedStep(enum eDirections eDirection)
 {
-	static unsigned char ucLedPoint=0;
+	static unsigned char ucLedPoint=9;
 	
 	if(eDirection==0)
 	{
@@ -100,6 +104,7 @@ void LedStep(enum eDirections eDirection)
 	}
 }
 
+
 void LedStepLeft(void)
 {	
 	LedStep(Left);
@@ -110,28 +115,59 @@ void LedStepRight(void)
 	LedStep(Right);
 }
 
-enum LedState{STAND_STILL, LED_RIGHT};
+enum LedState{STAND_STILL, LED_RIGHT,LED_LEFT,LED_RIGHT_STEPS};
 enum LedState eLedState = STAND_STILL; 
 
 int main()
 {
-	unsigned char ucLedStepCounter=0;
-	LedInit();
+unsigned char ucLedStepCounter=1;
+
+LedInit();
+KeyboardInit();
 	
-	while(1)
+	while(1) 
 	{
 		switch(eLedState){
+			
 			case STAND_STILL:
 				if(eKeyboardRead()==BUTTON_0){
-					while(eKeyboardRead()==BUTTON_0){}
-					eLedState=LED_RIGHT;}
+					eLedState= LED_LEFT;}
+				else if(eKeyboardRead()==BUTTON_2){
+					eLedState = LED_RIGHT;}
+				else{
+					eLedState = STAND_STILL;}
+				break;
+					
+			case LED_LEFT :
+				if(eKeyboardRead()==BUTTON_1){
+					eLedState = STAND_STILL;}
+				else{
+					LedStepLeft();
+					eLedState = LED_LEFT;}
 				break;
 			
-			case LED_RIGHT:
-				LedStepRight();
-				ucLedStepCounter = (ucLedStepCounter+1)%3;
-				if(ucLedStepCounter==2){
-					eLedState = STAND_STILL;}
+			case LED_RIGHT :
+				if(eKeyboardRead()==BUTTON_1){
+					eLedState=STAND_STILL;}
+				else if(eKeyboardRead()==BUTTON_0){
+					eLedState= LED_RIGHT_STEPS ;}
+				else{
+					LedStepRight();
+					eLedState=LED_RIGHT;}
+				break;
+					
+			case LED_RIGHT_STEPS:
+				if(ucLedStepCounter ==10){
+					ucLedStepCounter=0;
+					LedStepLeft();
+					eLedState = LED_LEFT;}
+				else{
+					LedStepRight();
+					ucLedStepCounter=ucLedStepCounter+1;
+					eLedState = LED_RIGHT_STEPS;}
+			break;
+								
+			default:
 				break;
 		}
 		Delay(100);
