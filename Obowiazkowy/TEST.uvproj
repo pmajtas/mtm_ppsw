@@ -398,9 +398,9 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>konwersje_keil.c</FileName>
+              <FileName>tokeny_keil.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\program obo\konwersje_keil.c</FilePath>
+              <FilePath>.\program obo\tokeny_keil.c</FilePath>
             </File>
           </Files>
         </Group>
