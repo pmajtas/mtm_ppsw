@@ -1,0 +1,22 @@
+wzmacniacze zad1
+*-------
+.LIB EVAL.LIB 
+
+*-------
+VCC 3 0 15
+VEE 0 4 15
+VIN 1 0 1
+
+X1 1 2 3 4 5 UA741
+R1 0 2 1k
+R2 2 5 10k
+
+*-------	
+.DC VIN -100 100 1m
+.PROBE
+.OP
+;.TF V(2) VIN
+*-------
+
+
+.END

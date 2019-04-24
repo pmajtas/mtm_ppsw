@@ -1,0 +1,179 @@
+
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+*-----
+.LIB EVAL.LIB
+.LIB ANL_MISC.LIB
+;D1N750 - zener
+
+*-----
+X1 (IN1) 0 (OUT1) 9 (OUT2) XFRM_LIN/CT-SEC
+
+*-----
+V1 (IN1) 0 SIN(0 120 60 0 0 0)
+
+
+D1 (OUT1) 1 D1N4148
+D2 0 (OUT2) D1N4148
+D3 (OUT2) 1 D1N4148
+D4 0 (OUT1) D1N4148
+
+C1 1 0 600u
+R1 1 2 200
+DZ 0 2 D1N750
+RL 2 0 1k
+
+.OP
+.TRAN 0 50m 10m
+
+
+.PROBE
+.END
+
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     Diode MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               D1N4148         D1N750          
+          IS    2.682000E-09  880.500000E-18 
+           N    1.836                        
+         ISR    1.565000E-09    1.859000E-09 
+         IKF     .04417                      
+          BV  100               4.7          
+         IBV  100.000000E-06     .020245     
+         NBV                    1.6989       
+        IBVL                    1.955600E-03 
+        NBVL                   14.976        
+          RS     .5664           .25         
+          TT   11.540000E-09                 
+         CJO    4.000000E-12  175.000000E-12 
+          VJ     .5              .75         
+           M     .3333           .5516       
+        TBV1                  -21.277000E-06 
+
+
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(    1)-74.33E-24  (    2)-67.72E-24  (    9)-878.1E-21  (  IN1)    0.0000      
+
+( OUT1)-878.1E-21  ( OUT2)-878.1E-21  ( X1.2)    0.0000  ( X1.7)    0.0000      
+
+( X1.8)    0.0000  ( X1.9)-878.1E-21  (X1.10)-878.1E-21  
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V1           0.000E+00
+
+    TOTAL POWER DISSIPATION   0.00E+00  WATTS
+
+
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     OPERATING POINT INFORMATION      TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+
+
+**** DIODES
+
+
+NAME         D1          D2          D3          D4          DZ        
+MODEL        D1N4148     D1N4148     D1N4148     D1N4148     D1N750    
+ID           0.00E+00    0.00E+00    0.00E+00    0.00E+00    0.00E+00 
+VD          -8.78E-19    8.78E-19   -8.78E-19    8.78E-19    6.77E-23 
+REQ          1.15E+07    1.15E+07    1.15E+07    1.15E+07    2.78E+07 
+CAP          4.00E-12    4.00E-12    4.00E-12    4.00E-12    1.75E-10 
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     INITIAL TRANSIENT SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(    1)-74.33E-24  (    2)-67.72E-24  (    9)-878.1E-21  (  IN1)    0.0000      
+
+( OUT1)-878.1E-21  ( OUT2)-878.1E-21  ( X1.2)    0.0000  ( X1.7)    0.0000      
+
+( X1.8)    0.0000  ( X1.9)-878.1E-21  (X1.10)-878.1E-21  
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V1           0.000E+00
+
+    TOTAL POWER DISSIPATION   0.00E+00  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 04/07/19 20:26:24 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ zad diody
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  License check-out time            =         .61
+  Total job time (using Solver 1)   =         .80
+

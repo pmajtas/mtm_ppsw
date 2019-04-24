@@ -1,0 +1,21 @@
+diody zad4
+*-------
+.LIB EVAL.LIB 
+.PARAM AMPL = 10
+*-------
+V_IN 1 0 1;SIN(0 {AMPL} 1k 0 0 0)
+*V1 3 0 5
+V2 0 4 4
+*-------	
+R1 1 2 1k
+*D1 2 3 D1N4148
+D2 4 2 D1N4148
+
+*-------
+*.TRAN 0 5m 
+*.FOUR 1k V(2)
+.DC V_IN -80 80 1m
+*.STEP LIN PARAM AMPL 0 0.5 0.01
+.PROBE
+
+.END

@@ -1,0 +1,138 @@
+
+**** 04/06/19 11:15:47 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad3
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+*-------
+.LIB EVAL.LIB 
+.PARAM OFFSET =0
+.PARAM CAPACITY =0
+*-------
+V1 1 0 SIN(0 10 1k 0 0 0)
+*-------
+D1 1 2 D1N4148  
+R1 2 0 1k
+C1 2 0 16u;{CAPACITY}
+*-------
+
+*.STEP LIN PARAM CAPACITY 10u 100u 1u
+.TRAN 0 4m 0.5m 10u
+.FOUR 1kHz V(R1)
+.PROBE
+
+.END
+
+**** 04/06/19 11:15:47 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad3
+
+
+ ****     Diode MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               D1N4148         
+          IS    2.682000E-09 
+           N    1.836        
+         ISR    1.565000E-09 
+         IKF     .04417      
+          BV  100            
+         IBV  100.000000E-06 
+          RS     .5664       
+          TT   11.540000E-09 
+         CJO    4.000000E-12 
+          VJ     .5          
+           M     .3333       
+
+
+**** 04/06/19 11:15:47 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad3
+
+
+ ****     INITIAL TRANSIENT SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(    1)    0.0000  (    2) 76.02E-24  
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V1          -7.602E-26
+
+    TOTAL POWER DISSIPATION   0.00E+00  WATTS
+
+
+**** 04/06/19 11:15:47 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad3
+
+
+ ****     FOURIER ANALYSIS                 TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+FOURIER COMPONENTS OF TRANSIENT RESPONSE V(R1)
+
+
+
+ DC COMPONENT =   8.9019E+00
+
+ HARMONIC   FREQUENCY     FOURIER     NORMALIZED     PHASE     NORMALIZED
+    NO         (HZ)      COMPONENT     COMPONENT     (DEG)     PHASE (DEG)
+
+     1    1.0000E+03   1.7587E-01   1.0000E+00  -8.2063E+01   0.0000E+00
+     2    2.0000E+03   8.6147E-02   4.8984E-01  -1.6497E+02  -8.4070E-01
+     3    3.0000E+03   5.5508E-02   3.1562E-01   1.1237E+02   3.5856E+02
+     4    4.0000E+03   3.9684E-02   2.2564E-01   2.9867E+01   3.5812E+02
+     5    5.0000E+03   2.9829E-02   1.6961E-01  -5.2490E+01   3.5782E+02
+     6    6.0000E+03   2.3016E-02   1.3087E-01  -1.3468E+02   3.5769E+02
+     7    7.0000E+03   1.8000E-02   1.0235E-01   1.4333E+02   7.1777E+02
+     8    8.0000E+03   1.4154E-02   8.0483E-02   6.1647E+01   7.1815E+02
+     9    9.0000E+03   1.1126E-02   6.3262E-02  -1.9664E+01   7.1890E+02
+
+
+     TOTAL HARMONIC DISTORTION =   6.7625E+01 PERCENT
+
+
+          JOB CONCLUDED
+
+**** 04/06/19 11:15:47 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad3
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .03
+

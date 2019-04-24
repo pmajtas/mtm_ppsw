@@ -1,0 +1,24 @@
+zad wzmak
+*-----
+.LIB EVAL.LIB
+*-----
+VCC 3 0 15
+VEE 0 4 15
+
+V_P 1 0 0
+V_N 2 0 0
+V_OUT 5 0 0
+
+
+X1 1 2 3 4 5 UA741
+*-----
+
+*.DC LIN V_P -0.2m 0.2m 1n
+
+
+;.TF V(5) V_P
+;.DC LIN V_P -10 10 1m
+.OP
+
+.PROBE
+.END

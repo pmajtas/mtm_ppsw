@@ -1,0 +1,73 @@
+
+**** 03/17/19 23:42:34 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ Sterowany mocno
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+*Zrodla niezalezne
+V1 1 0 PULSE 0 1 0 0 0 100
+*elementy
+R1 1 2 1000
+R2 2 4 1000
+R3 4 0 1000
+C1 2 0 20E-12
+C2 2 4 20E-12
+C3 4 0 20E-12
+
+.TRAN 10n 1m
+.PROBE
+
+.END
+
+**** 03/17/19 23:42:34 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ Sterowany mocno
+
+
+ ****     INITIAL TRANSIENT SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(    1)    0.0000  (    2)    0.0000  (    4)    0.0000  
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V1           0.000E+00
+
+    TOTAL POWER DISSIPATION   0.00E+00  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 03/17/19 23:42:34 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ Sterowany mocno
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .02
+

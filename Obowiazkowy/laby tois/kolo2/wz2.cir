@@ -1,0 +1,18 @@
+wzmacniacze zad2
+*-------
+.LIB EVAL.LIB 
+X1 1 2 3 4 5 UA741
+*-------
+V_DIFF VDIFF 0 {DIFF}
+V_CM VCM 0 {CM}
+E1 V_IN VDIFF 0 0.5
+E2 V_IP VCM VDIFF 0 0.5
+
+VCC 
+
+*-------	
+
+*-------
+
+
+.END

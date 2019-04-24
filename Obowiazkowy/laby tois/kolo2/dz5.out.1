@@ -1,0 +1,41 @@
+
+**** 04/06/19 13:02:58 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ diody zad5
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+*-------
+.LIB EVAL.LIB 
+
+*-------
+.SUBCKT DZ ZA ZK 
+
+.MODEL DIODE1 D IS=100P N=0.01
+.MODEL DIODE2 D IS=100P N=0.01
+
+RZ 2 ZA 20
+VZ 1 2 6.7
+DZ1 ZK 1 DIODE1
+DZ2 ZA ZK DIODE2
+.ENDS
+*-------        
+V1 1 0 10
+R1 1 2 500
+X1 0 2 DZ 
+
+*-------
+.DC V1 9 11 10m
+.PROBE
+.PLOT V(1)
+------$
+ERROR(ORPSIM-16283): Invalid analysis type
+
+.END
+

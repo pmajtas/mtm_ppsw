@@ -1,0 +1,15 @@
+Sterowany mocno
+*Zrodla niezalezne
+V1 1 0 PULSE 0 1 0 0 0 100
+*elementy
+R1 1 2 1000
+R2 2 4 1000
+R3 4 0 1000
+C1 2 0 20E-12
+C2 2 4 20E-12
+C3 4 0 20E-12
+
+.TRAN 10n 1m
+.PROBE
+
+.END
