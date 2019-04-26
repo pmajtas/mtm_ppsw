@@ -1,4 +1,5 @@
 #include <LPC21xx.H>
+#include "timer.h"
 
 #define TIMER_ENABLE_bm (1<<0)
 #define TIMER_RESET_bm 0
@@ -26,10 +27,4 @@ void WaitOnTimer0Match0(void){
 	T0IR =1;
 }
 
-int main(){
-	
-	InitTimer0Match0(1000);
-	WaitOnTimer0Match0();
 
-	return 0;
-}
