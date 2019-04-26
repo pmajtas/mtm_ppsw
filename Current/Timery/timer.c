@@ -20,16 +20,16 @@ void InitTimer0Match0(unsigned int iDelayTime){
 	T0TCR = TIMER_ENABLE_bm;
 }
 
-void WaitOnTimer0Match0(){
-	while(T0IR!=0){}
-	
+void WaitOnTimer0Match0(void){
+	while(T0TC < /* != */ T0MR0){
+	}
+	T0IR =1;
 }
 
 int main(){
-	int i;
+	
 	InitTimer0Match0(1000);
 	WaitOnTimer0Match0();
-	i++;
-	i++;
+
 	return 0;
 }
