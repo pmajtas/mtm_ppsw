@@ -154,11 +154,11 @@ void DecodeTokens(void){
 	
 	for(ucTokenCounter=0;ucTokenCounter<MAX_TOKEN_NR; ucTokenCounter++){
 		psVal = &asToken[ucTokenCounter];
-		if(eHexStringToUInt(psVal->uValue.pcString , &psVal->uValue.uiNumber)==OK){
-			psVal->eType = NUMBER;
-		}
-		else if(eStringToKeyword(psVal->uValue.pcString , &psVal->uValue.eKeyword)==OK){
+		if(eStringToKeyword(psVal->uValue.pcString , &psVal->uValue.eKeyword)==OK){
 			psVal->eType = KEYWORD;
+		}
+		else if(eHexStringToUInt(psVal->uValue.pcString , &psVal->uValue.uiNumber)==OK){
+			psVal->eType = NUMBER;
 		}
 		else{
 			psVal->eType = STRING;
