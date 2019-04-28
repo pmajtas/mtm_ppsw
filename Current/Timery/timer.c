@@ -24,7 +24,7 @@ void InitTimer0Match0(unsigned int iDelayTime){
 void WaitOnTimer0Match0(void){
 	while(T0TC < /* != */ T0MR0){
 	}
-	T0IR =1;
+	//T0IR =1;
 }
 
 
