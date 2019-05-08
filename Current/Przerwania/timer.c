@@ -11,8 +11,7 @@ void InitTimer0(void){
 void WaitOnTimer0(unsigned int uiTime){ 
 	T0TCR |= TIMER_RESET_bm; // reset timera
 	 uiTime= uiTime*15; //ustawienie ilosci zliczanych impulsow
-	while(T0TC < uiTime){}	//porownanie, czekanie do osiagniecia wartosci
-	T0TC=0;
+	while(T0TC < uiTime){} //porownanie, czekanie do osiagniecia wartosci
 }
 
 void InitTimer0Match0(unsigned int iDelayTime){
