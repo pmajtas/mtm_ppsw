@@ -398,19 +398,19 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\led.h</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
             </File>
             <File>
-              <FileName>zad2.c</FileName>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>zad3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\zad\zad2.c</FilePath>
+              <FilePath>.\zad3.c</FilePath>
             </File>
           </Files>
         </Group>

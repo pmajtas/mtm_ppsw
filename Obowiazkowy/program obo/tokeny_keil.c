@@ -146,13 +146,14 @@ unsigned char ucFindTokensInString(char *pcString) {
 	}
 }
 
-
+unsigned char ucTokenNumber;
 void DecodeTokens(void){
 	
+	//unsigned char ucTokenNumber;
 	unsigned char ucTokenCounter;
 	Token *psVal ;
 	
-	for(ucTokenCounter=0;ucTokenCounter<MAX_TOKEN_NR; ucTokenCounter++){
+	for(ucTokenCounter=0;ucTokenCounter<ucTokenNumber; ucTokenCounter++){
 		psVal = &asToken[ucTokenCounter];
 		if(eStringToKeyword(psVal->uValue.pcString , &psVal->uValue.eKeyword)==OK){
 			psVal->eType = KEYWORD;
@@ -169,9 +170,10 @@ void DecodeTokens(void){
 char test[] = "store 0x5 test";
 char *test1 = test;
 
+
 void DecodeMsg(char *pcString){
-	
-	ucFindTokensInString(pcString);
+
+	ucTokenNumber = ucFindTokensInString(pcString);
 	ReplaceCharactersInString(pcString, ' ', '\0');
 	DecodeTokens();
 }
