@@ -7,7 +7,7 @@ int main (){
 
 	unsigned int iMainLoopCtr;
 	LedInit();
-	Timer0Interrupts_Init(250000, &LedStepLeft);
+	Timer1Interrupts_Init(250000, &LedStepLeft);
 
 	while(1){
 	 	iMainLoopCtr++;

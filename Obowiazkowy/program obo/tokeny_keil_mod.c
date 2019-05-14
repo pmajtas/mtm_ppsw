@@ -60,15 +60,14 @@ enum Result eHexStringToUInt(char pcStr[], unsigned int *puiValue)
 		return OK;
 }*/
 
-
 struct Token asToken[MAX_TOKEN_NR];
-
 
 typedef struct Keyword
 {
 	enum KeywordCode eCode;
-	char cString[MAX_KEYWORD_STRING_LTH + 1];
+	char cString[MAX_KEYWORD_STRING_LTH +1];
 }Keyword;
+
 
 struct Keyword asKeywordList[MAX_KEYWORD_NR]  =
 {
@@ -134,7 +133,7 @@ unsigned char ucFindTokensInString(char *pcString) {
 	}
 }
 
-unsigned char ucTokenNumber;
+unsigned char ucTokenNumber=3;
 void DecodeTokens(void){
 	
 	//unsigned char ucTokenNumber;

@@ -11,9 +11,9 @@
 #define mRESET_ON_MR0     0x00000002
 #define mMR0_INTERRUPT    0x00000001
 
-#define mINTERRUPT_ON_MR1 0x00000002
-#define mRESET_ON_MR1     0x00000003
-#define mMR1_INTERRUPT    0x00000002
+#define mINTERRUPT_ON_MR1 0x00000004
+#define mRESET_ON_MR1     0x00000010
+#define mMR1_INTERRUPT    0x00000004
 
 // VIC (Vector Interrupt Controller) VICIntEnable
 #define VIC_TIMER0_CHANNEL_NR 4
@@ -37,7 +37,7 @@ __irq void Timer0IRQHandler(){
 
 __irq void Timer1IRQHandler(){
 
-	T1IR=mMR1_INTERRUPT; 	// skasowanie flagi przerwania 
+	T1IR=mMR0_INTERRUPT; 	// skasowanie flagi przerwania 
 	ptrTimer1InterruptFunction() ;		// cos do roboty
 	VICVectAddr=0x00; 	// potwierdzenie wykonania procedury obslugi przerwania
 }
@@ -72,14 +72,14 @@ void Timer1Interrupts_Init(unsigned int uiPeriod, void (*ptrInterruptFunction)()
 											//VICVectCntlx nadanie adresu kanalu, z ktorego bedzie przerwanie, nadaje priorytet przerwaniom z kanalow
 											//VICVectAddrx adres obslugi przerwania (adres pierwszego rozkazu programu do obslugi przerwania).
 
-	VICIntEnable |= (0x1 << VIC_TIMER1_CHANNEL_NR);            // Enable Timer 0 interrupt channel 
-	VICVectCntl13  = mIRQ_SLOT_ENABLE | VIC_TIMER1_CHANNEL_NR;  // Enable Slot 0 and assign it to Timer 0 interrupt channel //0 to najwyzszy priorytet
-	VICVectAddr1 = (unsigned long) Timer1IRQHandler; 	   // Set to Slot 0 Address of Interrupt Service Routine 
+	VICIntEnable |= (0x1 << VIC_TIMER1_CHANNEL_NR);            // Enable Timer 1 interrupt channel 
+	VICVectCntl13  = mIRQ_SLOT_ENABLE | VIC_TIMER1_CHANNEL_NR;  // Enable Slot 13 and assign it to Timer 1 interrupt channel //0 to najwyzszy priorytet
+	VICVectAddr13 = (unsigned long) Timer1IRQHandler; 	   // Set to Slot 1 Address of Interrupt Service Routine 
 
         // match module
 
-	T1MR1 = 15 * uiPeriod;                 	      // value 
-	T1MCR |= (mINTERRUPT_ON_MR1 | mRESET_ON_MR1); // action 
+	T1MR0 = 15 * uiPeriod;                 	      // value 
+	T1MCR |= (mINTERRUPT_ON_MR0 | mRESET_ON_MR0); // action 
 
         // timer
 

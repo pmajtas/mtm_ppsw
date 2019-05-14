@@ -70,6 +70,7 @@ void AppendUIntToString(unsigned int uiValue, char pcDestinationStr[])
 }
 
 
+
 	//int poglad = 0;
 	//unsigned int uiValue = 65000;
 	//char cHexStr[12] = "0xF5A97";

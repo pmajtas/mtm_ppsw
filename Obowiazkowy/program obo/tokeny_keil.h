@@ -1,3 +1,4 @@
+
 typedef enum KeywordCode { LD, ST, RST } KeywordCode;
 typedef enum TokenType { KEYWORD, NUMBER, STRING } TokenType;
 
@@ -13,6 +14,7 @@ typedef struct Token
 	enum TokenType eType; // KEYWORD, NUMBER, STRING
 	union TokenValue uValue; // enum, unsigned int, char*
 }Token;
+
 
 unsigned char ucFindTokensInString(char *pcString);
 enum Result eStringToKeyword(char pcStr[], enum KeywordCode *peKeywordCode);

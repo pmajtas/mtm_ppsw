@@ -398,9 +398,39 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>tokeny_keil.c</FileName>
+              <FileName>tokeny_keil.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\program obo\tokeny_keil.h</FilePath>
+            </File>
+            <File>
+              <FileName>testy.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\program obo\tokeny_keil.c</FilePath>
+              <FilePath>.\program obo\testy.c</FilePath>
+            </File>
+            <File>
+              <FileName>tokeny_keil_mod.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\program obo\tokeny_keil_mod.c</FilePath>
+            </File>
+            <File>
+              <FileName>konwersje_keil_mod.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\program obo\konwersje_keil_mod.c</FilePath>
+            </File>
+            <File>
+              <FileName>konwersje_keil_mod.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\program obo\konwersje_keil_mod.h</FilePath>
+            </File>
+            <File>
+              <FileName>lanc-op-proste_mod.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\program obo\lanc-op-proste_mod.c</FilePath>
+            </File>
+            <File>
+              <FileName>lanc-op-proste_mod.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\program obo\lanc-op-proste_mod.h</FilePath>
             </File>
           </Files>
         </Group>

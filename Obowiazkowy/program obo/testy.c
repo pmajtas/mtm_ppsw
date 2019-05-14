@@ -174,6 +174,74 @@ enum Result TestOf_ucFindTokensInString(){
 }
 
 enum Result TestOf_eStringToKeyword(){
+	char cString1[] = "store";
+	char cString2[] = "stoore";
+	char cString3[] = "start";
+	enum KeywordCode peCode;
+	
+	//Test 1 - Sprawdzenie poprawnosci wykrycia
+	eStringToKeyword(cString1, &peCode);
+	if(peCode != ST){
+		return ERROR;
+	}
+	//Test 2 - podanie wartosci z bledem
+	if(eStringToKeyword(cString2, &peCode) != ERROR){
+		return ERROR;
+	}
+	//Test 3 - Sprawdzenie przy podaniu slowa, ktore nie jest wartoscia slowa kluczowego
+	if(eStringToKeyword(cString3, &peCode) != ERROR){
+		return ERROR;
+	}
+ 
+	return OK;
+}
+
+enum Result TestOf_DecodeTokens(){
+	
+	struct Token *psToken;
+	char cTest[] = "0x0010 test reset";
+	//char cTest2[] = "reset";
+	//char cTest3[] = "test";
+	//struct Token asToken[3];
+	
+	//asToken[0].uValue.pcString = cTest;
+	//asToken[1].uValue.pcString = cTest2;
+	//asToken[2].uValue.pcString = cTest3;
+	
+	ucFindTokensInString(cTest);
+	ReplaceCharactersInString(cTest,' ', '\0');
+	DecodeTokens();
+	psToken = &asToken[0];
+	//Test 1 - sprawdzenie tokenu typu number
+	if(psToken->eType != NUMBER){
+		return ERROR;
+	}
+	else if(psToken->uValue.uiNumber != 0x10){
+		return ERROR;
+	}
+	//Test 2 - sprawdzenie tokenu typu keyword
+	else if((psToken+1)->eType != KEYWORD){
+		return ERROR;
+	}
+	else if((psToken+1)->uValue.eKeyword != RST){
+		return ERROR;
+	}
+	//Test 3 - sprawdzenie tokenu typu string
+	else if((psToken+2)->eType != STRING){
+		return ERROR;
+	}
+	else if(eCompareString((psToken+2)->uValue.pcString,"test")){
+		return ERROR;
+	}
+	return OK;
+}
+
+enum Result TestOf_DecodeMsg(){
+
+	struct Token *psToken ;
+	char pcString[] = "reset 0x0010 test1 test2";
+	DecodeMsg(pcString);
+	//psToken = asToken;
 	
 	
 	return OK;
@@ -183,9 +251,9 @@ enum Result eResult=ERROR;
 char Tab[15] = "0x1234";
 
 int main(){
-	
+
 	AppendUIntToString(20,Tab);
-	eResult=TestOf_ucFindTokensInString();
+	eResult=TestOf_DecodeTokens();
 	
 	return 1;
 }
