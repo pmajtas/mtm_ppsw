@@ -1,3 +1,4 @@
+#define MAX_TOKEN_NR 3
 
 typedef enum KeywordCode { LD, ST, RST } KeywordCode;
 typedef enum TokenType { KEYWORD, NUMBER, STRING } TokenType;
@@ -15,6 +16,7 @@ typedef struct Token
 	union TokenValue uValue; // enum, unsigned int, char*
 }Token;
 
+extern struct Token asToken[MAX_TOKEN_NR];
 
 unsigned char ucFindTokensInString(char *pcString);
 enum Result eStringToKeyword(char pcStr[], enum KeywordCode *peKeywordCode);

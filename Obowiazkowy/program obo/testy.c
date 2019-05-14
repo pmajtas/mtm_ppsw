@@ -2,6 +2,9 @@
 #include "konwersje_keil_mod.h"
 #include "tokeny_keil.h"
 
+#define MAX_TOKEN_NR 3
+
+
 //Testy funkcji lancuchy znakowe - operacje proste
 
 enum Result TestOf_CopyString(){
@@ -199,17 +202,17 @@ enum Result TestOf_eStringToKeyword(){
 enum Result TestOf_DecodeTokens(){
 	
 	struct Token *psToken;
-	char cTest[] = "0x0010 test reset";
-	//char cTest2[] = "reset";
-	//char cTest3[] = "test";
-	//struct Token asToken[3];
+	char cTest[] = "0x0010";
+	char cTest2[] = "reset";
+	char cTest3[] = "test";
+
 	
-	//asToken[0].uValue.pcString = cTest;
-	//asToken[1].uValue.pcString = cTest2;
-	//asToken[2].uValue.pcString = cTest3;
+	asToken[0].uValue.pcString = cTest;
+	asToken[1].uValue.pcString = cTest2;
+	asToken[2].uValue.pcString = cTest3;
 	
-	ucFindTokensInString(cTest);
-	ReplaceCharactersInString(cTest,' ', '\0');
+	//ucFindTokensInString(cTest);
+	//ReplaceCharactersInString(cTest,' ', '\0');
 	DecodeTokens();
 	psToken = &asToken[0];
 	//Test 1 - sprawdzenie tokenu typu number
@@ -230,7 +233,7 @@ enum Result TestOf_DecodeTokens(){
 	else if((psToken+2)->eType != STRING){
 		return ERROR;
 	}
-	else if(eCompareString((psToken+2)->uValue.pcString,"test")){
+	else if((psToken+2)->uValue.pcString !=cTest3){
 		return ERROR;
 	}
 	return OK;
