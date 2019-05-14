@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "lanc-op-proste_mod.h"
 
 char cTextTwo[] = "Ciasto" ;
 char cTextOne[] =  "Placekkkkkk" ;
@@ -7,8 +7,6 @@ char cTextThree[]=  "Tort" ;
 char cDoZmiany = 'a';
 char cNowa = 'o';
 
-/*typedef enum CompResult 
-{ DIFFERENT , EQUAL } CompResult;*/
 
 void CopyString(char pcSource[], char pcDestination[])
 {
@@ -22,10 +20,9 @@ void CopyString(char pcSource[], char pcDestination[])
 	pcDestination[ucCharCounter] = '\0';
 }
 
-enum CompResult{DIFFERENT, EQUAL} eCompareString(char pcStr1[], char pcStr2[])
+enum CompResult eCompareString(char pcStr1[], char pcStr2[])
 {
 	unsigned char ucCharCounter;
-
 
 	for (ucCharCounter = 0; pcStr1[ucCharCounter] != '\0'; ucCharCounter++)
 	{
@@ -44,7 +41,6 @@ void AppendString(char pcSourceStr[], char pcDestinationStr[])
 
 	for (ucCharCounter = 0; pcDestinationStr[ucCharCounter] != '\0'; ucCharCounter++)
 	{
-
 	}
 		CopyString(pcSourceStr, pcDestinationStr+ucCharCounter);
 
@@ -55,7 +51,7 @@ void ReplaceCharactersInString(char pcString[], char cOldChar,char cNewChar)
 {
 	unsigned char ucCharCounter;
 
-	for (ucCharCounter=0; ucCharCounter < 254; ucCharCounter++)
+	for (ucCharCounter=0; pcString[ucCharCounter]!='\0'; ucCharCounter++)
 	{
 		if (pcString[ucCharCounter] == cOldChar)
 		{
@@ -63,7 +59,7 @@ void ReplaceCharactersInString(char pcString[], char cOldChar,char cNewChar)
 		}
 	}
 }
-char result;
+/*char result;
 int main()
 {
 
@@ -77,4 +73,4 @@ int main()
 	cTextTwo[ucCharCounter] = '\0';
 
 	return 0;
-}
+}*/
