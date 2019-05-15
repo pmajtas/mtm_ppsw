@@ -6,19 +6,18 @@ enum Result Result1,Result2,Result3,Result4,Result5,Result6,Result7,Result8,Resu
 //Testy funkcji lancuchy znakowe - operacje proste
 
 enum Result TestOf_CopyString(){
-	char cString1[] = "Test1";
-	char cString2[] = "Test2";
-	char cString3[] = "Test3";
-	char cString4[] = "";
+	char cDestination[] = "cDest";
+	char cDestination2[] = "";
 	
-	//Test1 - sprawdzenie poprawnosci dzialania CopyString
-	CopyString(cString1, cString2);
-	CopyString(cString3, cString4);
-	if(eCompareString(cString1,cString2) == DIFFERENT){
+	CopyString("cSorc", cDestination);
+	CopyString("cSorc", cDestination2);
+	
+	//Test1 - rowne wymiary tablic	
+	if(eCompareString(cDestination,"cSorc") == DIFFERENT){
 		return ERROR;
 	}
-	//Test2 - test dla róznych wymiarow tablic
-	if(eCompareString(cString3, cString4)==EQUAL){
+	//Test2 - kopiowanie do pustego lancucha
+	if(eCompareString(cDestination2,"cSource" )==EQUAL){
 		return ERROR;
 	}
 		else 
@@ -26,15 +25,12 @@ enum Result TestOf_CopyString(){
 }
 
 enum Result TestOf_eCompareString(){
-	char cString1[] = "Test1";
-	char cString2[] = "Test1";
-	char cString3[] = "Test2";
-	//Test 1 - sprawdzenie dla takich samych lanuchow
-	if(eCompareString(cString1, cString2) == DIFFERENT){
+	//Test 1 - takie same lancuchy
+	if(eCompareString("Test1", "Test1") == DIFFERENT){
 		return ERROR;
 	}
-	//Test 2 - sprawdzenie dla roznych lancuchow
-	else if(eCompareString(cString2,cString3) == EQUAL){
+	//Test 2 - pusty lancuch
+	else if(eCompareString("Test1","") == EQUAL){
 		return ERROR;
 	}
 	else
@@ -42,22 +38,17 @@ enum Result TestOf_eCompareString(){
 }
 
 enum Result TestOf_AppendString(){
-	char cString1[10] = "Test1";
-	char cString2[10] = "Test2";
-	char cString3[10] = "Test1Test2";
-	char cString4[10] = "";
-	char cString5[10] = "Test1Test2";
-
+	char cDest1[11] = "Test2";
+	char cDest2[] = "";
 	
-	AppendString(cString2,cString1);
-	AppendString(cString4,cString5);
-
-	//Test 1 - sprawdzenie przy dwoch niepustych lancuchach
-	if(eCompareString(cString1,cString3)==DIFFERENT){
+	AppendString("Test1",cDest1);
+	//Test 1 - dwa niepuste lancuchy
+	if(eCompareString(cDest1,"Test2Test1")==DIFFERENT){
 		return ERROR;
 	}
-	//Test 2 - sprawdzenie przy dolaczaniu pustego lancucha
-	else if(eCompareString(cString5,cString3)==DIFFERENT){
+	AppendString("Test1",cDest2);
+	//Test 2 - append do pustego lancucha
+	if(eCompareString("Test1",cDest2)==EQUAL){
 		return ERROR;
 	}
 	else 
@@ -65,15 +56,19 @@ enum Result TestOf_AppendString(){
 }
 
 enum Result TestOf_ReplaceCharactersInString(){
-	char cString1[] = "Test1";
-	char cString2[] = "Tost1";
-	char cChar1 = 'e';
-	char cChar2 = 'o';
-	
-	ReplaceCharactersInString(cString1, cChar1,cChar2);
+	char cString1[] = "Test1 Test2 Test3";
+	char cString2[] = "";
 
-	//Test 1 - Sprawdzenie poprawnosci zmienonego znaku
-	if(eCompareString(cString1,cString2)==DIFFERENT){
+	ReplaceCharactersInString(cString1, ' ','\0');
+	ReplaceCharactersInString(cString2, '\0',' ');
+
+
+	//Test 1 - spacja na null
+	if((cString1[5] != '\0')||(cString1[11] != '\0')){
+		return ERROR;
+	}
+	//Test 2 - zamiana w pustym
+	else if(cString2[0] == ' '){
 		return ERROR;
 	}
 	return OK;
@@ -82,8 +77,8 @@ enum Result TestOf_ReplaceCharactersInString(){
 // Testy funkcji lancuchy znakowe - konwersje
 enum Result TestOf_UIntToHexStr(){
 
-	unsigned int uiNumber1 = 25;
-	char cNumber1[] = "0x0019";
+	unsigned int uiNumber1 =0x1A;
+	char cNumber1[] = "0x001A";
 	char cHexString[6];
 	
 	UIntToHexStr(uiNumber1, cHexString);
@@ -95,44 +90,38 @@ enum Result TestOf_UIntToHexStr(){
 }
 
 enum Result TestOf_eHexStringToUInt(){
-	char cHexStr1[] = "0x0028";
-	char cHexStr2[] = "0a0011";
-	char cHexStr3[] = "1x0012";
-	char cHexStr4[] = "0x00001";
-	char cHexStr5[] = "0x";
+
 	unsigned int uiResult;
-	unsigned int uiValue = 40;
 	
-	eHexStringToUInt(cHexStr1,&uiResult);
-	//Test 1 - sprawdzenie poprawnosci zamiany lancucha na uint
-	if(uiResult != uiValue){
+	eHexStringToUInt("0x002A",&uiResult);
+	//Test 1 - poprawny lancuch
+	if(uiResult != 0x2A){
 		return ERROR;
 	}
-	//Test 2 - sprawdzenie wykrycia nieprawidlowego hexstring
-	else if(eHexStringToUInt(cHexStr2, &uiResult)== OK){
+	//Test 2 - zamiast x jest inna litera
+	else if(eHexStringToUInt("0a002A", &uiResult)== OK){
 		return ERROR;
 	}
-	//Test 3 - sprawdzenie wykrycia nieprawidlowego hexstring
-	else if(eHexStringToUInt(cHexStr3, &uiResult)== OK){
+	//Test 3 - zamiast 0 na poczatku inna cyfra
+	else if(eHexStringToUInt("1x002A", &uiResult)== OK){
 		return ERROR;
 	}
-	//Test 4 - sprawdzenie wykrycia nieprawidlowego hexstring
-	else if(eHexStringToUInt(cHexStr4, &uiResult)== OK){
+	//Test 4 - za dlugi hexstring
+	else if(eHexStringToUInt("0x0002A", &uiResult)== OK){
 		return ERROR;
 	}
-	//Test 5 - sprawdzenie wykrycia nieprawidlowego hexstring
-	else if(eHexStringToUInt(cHexStr5, &uiResult)== OK){
+	//Test 5 - pusty hexstring
+	else if(eHexStringToUInt("", &uiResult)== OK){
 		return ERROR;
 	}
 	return OK;
 }
 
 enum Result TestOf_AppendUIntToString(){
-	char cHexStr1[12] = "0x0012";
-	char cHexStr2[] = "0x00120x0014";
-	unsigned int uiValue = 20;
+	char cHexStr1[12] = "0x001A";
+	char cHexStr2[] = "0x001A0x002A";
 	
-	AppendUIntToString(uiValue,cHexStr1);
+	AppendUIntToString(0x2A,cHexStr1);
 	
 	// Test 1 - sprawdzenie przypisania 
 	if(eCompareString(cHexStr1, cHexStr2)==DIFFERENT){
@@ -145,52 +134,48 @@ enum Result TestOf_AppendUIntToString(){
 //Testy funkcji sluzacych do dekodowania komunikatow
 
 enum Result TestOf_ucFindTokensInString(){
-	char cString1[] = "test string";
+	char cString1[] = "test string test test";
 	char cString2[] = "";
 	char cString3[] = "     ";
 	char cString4[] = "   test    test   ";
-	unsigned char ucResult1, ucResult2, ucResult3, ucResult4;
-	
-	ucResult1 = ucFindTokensInString(cString1);
-	ucResult2 = ucFindTokensInString(cString2);
-	ucResult3 = ucFindTokensInString(cString3);
-	ucResult4 = ucFindTokensInString(cString4);
+
 	//Test1 - sprawdzenie ilosci tokenow w komunikacie
-	if(ucResult1 != 2){
+	if(ucFindTokensInString(cString1) != 3){
 		return ERROR;
 	}
 	//Test 2 - sprawdzenie ilosci tokenow w pustym komunikacie
-	else if(ucResult2 !=0){
+	else if(ucFindTokensInString(cString2) !=0){
 		return ERROR;
 	}
 	//Test 3 - sprawdzenie ilosci tokenow w komunikacie z samymi delimiterami
-	else if(ucResult3 !=0){
+	else if(ucFindTokensInString(cString3) !=0){
 		return ERROR;
 	}
 	//Test 4 - sprawdzenie ilosci tokenow w komunikacie z wiecej niz jednym delimiterem
-	else if(ucResult4 !=2){
+	else if(ucFindTokensInString(cString4) !=2){
 		return ERROR;
 	}
 	return OK;
 }
 
 enum Result TestOf_eStringToKeyword(){
-	char cString1[] = "store";
-	char cString2[] = "stoore";
-	char cString3[] = "start";
+
 	enum KeywordCode peCode;
 	
 	//Test 1 - Sprawdzenie poprawnosci wykrycia
-	eStringToKeyword(cString1, &peCode);
+	eStringToKeyword("store", &peCode);
 	if(peCode != ST){
 		return ERROR;
 	}
+	else if(eStringToKeyword("store", &peCode)==ERROR){
+		return ERROR;
+	}
 	//Test 2 - podanie wartosci z bledem
-	if(eStringToKeyword(cString2, &peCode) != ERROR){
+	if(eStringToKeyword("stoore", &peCode) != ERROR){
 		return ERROR;
 	}
 	//Test 3 - Sprawdzenie przy podaniu slowa, ktore nie jest wartoscia slowa kluczowego
-	if(eStringToKeyword(cString3, &peCode) != ERROR){
+	if(eStringToKeyword("start", &peCode) != ERROR){
 		return ERROR;
 	}
  
@@ -261,9 +246,6 @@ enum Result TestOf_DecodeMsg(){
 	else if((psToken+2)->uValue.pcString != (pcString1+13)){
 		return ERROR;
 	}
-	
-	
-	
 	return OK;
 }
 
