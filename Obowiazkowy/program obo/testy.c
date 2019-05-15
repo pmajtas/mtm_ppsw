@@ -2,9 +2,7 @@
 #include "konwersje_keil_mod.h"
 #include "tokeny_keil.h"
 
-#define MAX_TOKEN_NR 3
-
-
+enum Result Result1,Result2,Result3,Result4,Result5,Result6,Result7,Result8,Result9,Result10,Result11 ;
 //Testy funkcji lancuchy znakowe - operacje proste
 
 enum Result TestOf_CopyString(){
@@ -206,7 +204,6 @@ enum Result TestOf_DecodeTokens(){
 	char cTest2[] = "reset";
 	char cTest3[] = "test";
 
-	
 	asToken[0].uValue.pcString = cTest;
 	asToken[1].uValue.pcString = cTest2;
 	asToken[2].uValue.pcString = cTest3;
@@ -242,21 +239,50 @@ enum Result TestOf_DecodeTokens(){
 enum Result TestOf_DecodeMsg(){
 
 	struct Token *psToken ;
-	char pcString[] = "reset 0x0010 test1 test2";
-	DecodeMsg(pcString);
-	//psToken = asToken;
+	char pcString1[] = "reset 0x0010 test1 test2";
+	DecodeMsg(pcString1);
+	psToken = asToken;
+	//Test 1 - dekodowanie wiadomosci z wiecej niz max_token_nr
+	if(psToken->eType != KEYWORD){
+		return ERROR;
+	}
+	else if(psToken->uValue.eKeyword != RST){
+		return ERROR;
+	}
+	else if((psToken+1)->eType != NUMBER){
+		return ERROR;
+	}
+	else if((psToken+1)->uValue.uiNumber != 16){
+		return ERROR;
+	}
+	else if((psToken+2)->eType != STRING){
+		return ERROR;
+	}
+	else if((psToken+2)->uValue.pcString != (pcString1+13)){
+		return ERROR;
+	}
+	
 	
 	
 	return OK;
 }
 
-enum Result eResult=ERROR;
-char Tab[15] = "0x1234";
-
-int main(){
-
-	AppendUIntToString(20,Tab);
-	eResult=TestOf_DecodeTokens();
+int main(void){
 	
-	return 1;
+	//Testy funkcji - lancuchy operacje proste
+	Result1 = TestOf_CopyString();
+	Result2 = TestOf_eCompareString();
+	Result3 = TestOf_AppendString();
+	Result4 = TestOf_ReplaceCharactersInString();
+	//Testy funkcji - lancuchy konwersje
+	Result5 = TestOf_UIntToHexStr();
+	Result6 = TestOf_eHexStringToUInt();
+	Result7 = TestOf_AppendUIntToString();
+	//Testy funkcji - dekodowanie komunikatow
+	Result8 = TestOf_ucFindTokensInString();
+	Result9 = TestOf_eStringToKeyword();
+	Result10 = TestOf_DecodeTokens();
+	Result11 = TestOf_DecodeMsg();
+	
+return 0;
 }
