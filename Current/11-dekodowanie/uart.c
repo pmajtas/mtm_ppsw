@@ -30,13 +30,14 @@ char cOdebranyZnak;
 
 enum eReceiverStatus {EMPTY, READY, OVERFLOW};
 
-struct RecieverBuffer{		//nasz bufor
+struct ReceiverBuffer{
 	
 	char cData[RECEIVER_SIZE];
 	unsigned char ucCharCtr;
 	enum eReceiverStatus eStatus;
 };
 
+struct ReceiverBuffer sBuffer;
 
 ///////////////////////////////////////////
 __irq void UART0_Interrupt (void) {
@@ -75,6 +76,24 @@ void UART_InitWithInt(unsigned int uiBaudRate){
 
 void Receiver_PutCharacterToBuffer(char cCharacter){
 	//terminator to enter 0xD
-	char pcCharacterPointer;
-	for(cChar=0,
+	if(cCharacter != 0xD){
+		if(sBuffer.ucCharCtr >= (RECEIVER_SIZE -1) ){
+			sBuffer.eStatus = OVERFLOW;
+		}
+		sBuffer.cData[sBuffer.ucCharCtr] = cCharacter;
+	}
+	else{
+		sBuffer.cData[sBuffer.ucCharCtr] = '\0';
+		sBuffer.eStatus = READY;
+		sBuffer.ucCharCtr = 0;
+	}
+	sBuffer.ucCharCtr ++ ;
+}
+
+enum eReceiverStatus eReceiver_GetStatus(void){
+	return sBuffer.eStatus ;
+}
+
+void Reciever_GetStringCopy(char * ucDestination){
+	
 }

@@ -24,17 +24,14 @@
 #define mIRQ_SLOT_ENABLE                           0x00000020
 
 ////////////// Zmienne globalne ////////////
-#define RECEIVER_SIZE 4
-
 char cOdebranyZnak;
 
-enum eReceiverStatus {EMPTY, READY, OVERFLOW};
+enum eRecieverStatus {EMPTY, READY, OVERFLOW};
 
-struct RecieverBuffer{		//nasz bufor
-	
-	char cData[RECEIVER_SIZE];
+struct RecieverBuffer{
+	char cData[RECIEVER_SIZE];
 	unsigned char ucCharCtr;
-	enum eReceiverStatus eStatus;
+	enum eRecieverStatus eStatus;
 };
 
 
@@ -73,8 +70,4 @@ void UART_InitWithInt(unsigned int uiBaudRate){
    VICIntEnable |= (0x1 << VIC_UART0_CHANNEL_NR);               // Enable UART 0 Interrupt Channel
 }
 
-void Receiver_PutCharacterToBuffer(char cCharacter){
-	//terminator to enter 0xD
-	char pcCharacterPointer;
-	for(cChar=0,
-}
+
