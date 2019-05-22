@@ -35,8 +35,7 @@ void Automat(void){
 			case CALLIB:
 				if(eReadDetector() != ACTIVE){
 					sServo.eState = CALLIB;
-					LedStepRight();
-					while(sServo.eState!=IDLE){}}
+					LedStepRight();}
 				else{
 					sServo.eState = IDLE;}
 				break;
@@ -55,7 +54,8 @@ void Automat(void){
 					sServo.uiCurrentPosition%=48;}
 					
 				else{
-					sServo.eState = IDLE;}
+					sServo.eState = IDLE;
+					sServo.uiCurrentPosition=0;}
 				break;		
 								
 			default:
@@ -67,11 +67,11 @@ void ServoInit(unsigned int uiServoFrequency){
 	Timer1Interrupts_Init((1000000/uiServoFrequency), &Automat); //spytac jak szybko na plytce
 	LedInit();
 	DetectorInit();
+	ServoCallib();
 }
 	
 void ServoCallib(void){
 	sServo.eState = CALLIB;
-	
 }
 
 void ServoGoTo(unsigned int uiPosition){
