@@ -3,23 +3,42 @@
 #include "timer_interrupts.h"
 #include "timer.h"
 #include "servo.h"
+#include <LPC21xx.H>
 
 
 
 int main (){ 
 	
-	ServoInit(5);
+	
 	KeyboardInit();
+	ServoInit(5);
+	ServoGoTo(24);
+	ServoGoTo(12);
+	ServoCallib();
 	
 	while(1){
 		
-		if(eKeyboardRead() == BUTTON_0){
-			ServoCallib();}
-		else if(eKeyboardRead() == BUTTON_1){
-			ServoGoTo(12);}
-		else if(eKeyboardRead() == BUTTON_2){
-			ServoGoTo(24);}
-		else if(eKeyboardRead() == BUTTON_3){
-			ServoGoTo(36);}
+		switch(eKeyboardRead()){
+			
+			case(BUTTON_0):
+				ServoCallib();
+				break;
+			
+			case(BUTTON_1):
+				ServoGoTo(12);
+				break;
+			
+			case(BUTTON_2):
+				ServoGoTo(24);
+				break;
+			
+			case(BUTTON_3):
+				ServoGoTo(36);
+				break;
+			
+			default:
+				break;
+				
+		}
 	}
 }
