@@ -3,8 +3,6 @@
 #include "timer_interrupts.h"
 #include "timer.h"
 #include "servo.h"
-#include <LPC21xx.H>
-
 
 
 int main (){ 
@@ -12,8 +10,8 @@ int main (){
 	
 	KeyboardInit();
 	ServoInit(5);
-	ServoGoTo(24);
-	ServoGoTo(12);
+	ServoGoTo(4); //24
+	ServoGoTo(2); //12
 	ServoCallib();
 	
 	while(1){

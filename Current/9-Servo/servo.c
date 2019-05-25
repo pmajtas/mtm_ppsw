@@ -72,13 +72,14 @@ void ServoInit(unsigned int uiServoFrequency){
 	
 void ServoCallib(void){
 	sServo.eState = CALLIB;
+	//while(sServo.eState!=IDLE){}
 }
 
 void ServoGoTo(unsigned int uiPosition){
 	
 	sServo.uiDesiredPosition = uiPosition;
 	sServo.eState = IN_PROGRESS;
-	while(sServo.eState!=IDLE){}
+	//while(sServo.eState!=IDLE){}
 }
 	
 	
