@@ -24,7 +24,7 @@
 #define mIRQ_SLOT_ENABLE                           0x00000020
 
 ////////////// Zmienne globalne ////////////
-#define RECEIVER_SIZE 4
+#define RECEIVER_SIZE 7
 
 char cOdebranyZnak;
 
@@ -58,6 +58,25 @@ __irq void UART0_Interrupt (void) {
    VICVectAddr = 0; // Acknowledge Interrupt
 }
 
+__irq void UART0_Interrupt_Servo(void){
+
+	unsigned int uiCopyOfU0IIR=U0IIR; // odczyt U0IIR powoduje jego kasowanie wiec lepiej pracowac na kopii
+
+   if      ((uiCopyOfU0IIR & mINTERRUPT_PENDING_IDETIFICATION_BITFIELD) == mRX_DATA_AVALIABLE_INTERRUPT_PENDING) // odebrano znak
+   {
+      cOdebranyZnak = U0RBR; //sluzy do odczytania bufora, zeby odczytac musi byc u0lcr=0 MSB to najnowszy bit, LSB to najstarszy
+   } 
+	 Receiver_PutCharacterToBuffer(cOdebranyZnak);
+   
+   if ((uiCopyOfU0IIR & mINTERRUPT_PENDING_IDETIFICATION_BITFIELD) == mTHRE_INTERRUPT_PENDING)              // wyslano znak - nadajnik pusty 
+   {
+      // narazie nic nie wysylamy
+   }
+
+   VICVectAddr = 0; // Acknowledge Interrupt
+
+}
+
 ////////////////////////////////////////////
 void UART_InitWithInt(unsigned int uiBaudRate){
 
@@ -69,7 +88,7 @@ void UART_InitWithInt(unsigned int uiBaudRate){
    U0IER  |= mRX_DATA_AVALIABLE_INTERRUPT_ENABLE;               // UxIER sluzy do odblokowania czterech zrodel przerwan, w tym wypadku odblokowywujemy przerwania pochodzace z  Rx 
 
    // INT
-   VICVectAddr1  = (unsigned long) UART0_Interrupt;             // set interrupt service routine address
+   VICVectAddr1  = (unsigned long) UART0_Interrupt_Servo;             // set interrupt service routine address
    VICVectCntl1  = mIRQ_SLOT_ENABLE | VIC_UART0_CHANNEL_NR;     // use it for UART 0 Interrupt
    VICIntEnable |= (0x1 << VIC_UART0_CHANNEL_NR);               // Enable UART 0 Interrupt Channel
 }
@@ -77,23 +96,28 @@ void UART_InitWithInt(unsigned int uiBaudRate){
 void Receiver_PutCharacterToBuffer(char cCharacter){
 	//terminator to enter 0xD
 	if(cCharacter != 0xD){
-		if(sBuffer.ucCharCtr >= (RECEIVER_SIZE -1) ){
-			sBuffer.eStatus = OVERFLOW;
-		}
 		sBuffer.cData[sBuffer.ucCharCtr] = cCharacter;
-	}
+		sBuffer.ucCharCtr ++ ;
+	}	
 	else{
 		sBuffer.cData[sBuffer.ucCharCtr] = '\0';
 		sBuffer.eStatus = READY;
-		sBuffer.ucCharCtr = 0;
+		sBuffer.ucCharCtr=0;
 	}
-	sBuffer.ucCharCtr ++ ;
+	if(sBuffer.cData[(RECEIVER_SIZE-1)]!= '\0' ){
+			sBuffer.eStatus = OVERFLOW;
+			sBuffer.ucCharCtr=0;}
 }
 
 enum eReceiverStatus eReceiver_GetStatus(void){
 	return sBuffer.eStatus ;
 }
 
-void Reciever_GetStringCopy(char * ucDestination){
-	
+void Receiver_GetStringCopy(char *cDestination){
+	unsigned char ucCharCounter;
+	char *cData = sBuffer.cData ;
+	for(ucCharCounter=0;sBuffer.cData[ucCharCounter] != '\0';ucCharCounter++){
+		cDestination = cData+ucCharCounter;
+	}
+	sBuffer.eStatus=EMPTY;
 }
