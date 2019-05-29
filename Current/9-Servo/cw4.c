@@ -9,9 +9,9 @@ int main (){
 	
 	
 	KeyboardInit();
-	ServoInit(5);
-	ServoGoTo(4); //24
-	ServoGoTo(2); //12
+	ServoInit(200);
+	ServoGoTo(24); 
+	ServoGoTo(12); 
 	ServoCallib();
 	
 	while(1){

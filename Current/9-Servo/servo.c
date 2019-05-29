@@ -37,6 +37,8 @@ void Automat(void){
 					sServo.eState = CALLIB;
 					LedStepRight();}
 				else{
+					sServo.uiCurrentPosition=0;
+					sServo.uiDesiredPosition=0;
 					sServo.eState = IDLE;}
 				break;
 					
@@ -54,8 +56,7 @@ void Automat(void){
 					sServo.uiCurrentPosition%=48;}
 					
 				else{
-					sServo.eState = IDLE;
-					sServo.uiCurrentPosition=0;}
+					sServo.eState = IDLE;}
 				break;		
 								
 			default:
@@ -71,15 +72,16 @@ void ServoInit(unsigned int uiServoFrequency){
 }
 	
 void ServoCallib(void){
+	
 	sServo.eState = CALLIB;
-	//while(sServo.eState!=IDLE){}
+	while(sServo.eState!=IDLE){}
 }
 
 void ServoGoTo(unsigned int uiPosition){
 	
 	sServo.uiDesiredPosition = uiPosition;
 	sServo.eState = IN_PROGRESS;
-	//while(sServo.eState!=IDLE){}
+	while(sServo.eState!=IDLE){}
 }
 	
 	
