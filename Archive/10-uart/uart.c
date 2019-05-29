@@ -73,8 +73,8 @@ void UART_InitWithInt(unsigned int uiBaudRate){
    VICIntEnable |= (0x1 << VIC_UART0_CHANNEL_NR);               // Enable UART 0 Interrupt Channel
 }
 
-void Receiver_PutCharacterToBuffer(char cCharacter){
+/*void Receiver_PutCharacterToBuffer(char cCharacter){
 	//terminator to enter 0xD
 	char pcCharacterPointer;
 	for(cChar=0,
-}
+} */

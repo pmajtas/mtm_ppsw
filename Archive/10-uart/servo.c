@@ -5,7 +5,7 @@
 
 #define P10_bm (1<<10)
 
-enum ServoState{CALLIB, IDLE, IN_PROGRESS};
+enum ServoState{CALLIB,IDLE, IN_PROGRESS};
 	
 	struct Servo {
 		enum ServoState eState; 
@@ -15,16 +15,6 @@ enum ServoState{CALLIB, IDLE, IN_PROGRESS};
 	
 	struct Servo sServo;
 	
-/*void Delay(int iDelayMiliSeconds)
-{
-	int i;
-	int iLimit = 12000*iDelayMiliSeconds; 
-	
-	for(i=0; i < iLimit ; i++)
-	{
-		
-	}
-}*/
 
 void DetectorInit(void){
 	IO0DIR = IO0DIR & ~(P10_bm);
@@ -40,8 +30,6 @@ enum DetectorState{INACTIVE, ACTIVE} eReadDetector(void){
 void Automat(void){
 
 
-	//while(1) 
-	//{
 		switch(sServo.eState){
 			
 			case CALLIB:
@@ -49,6 +37,8 @@ void Automat(void){
 					sServo.eState = CALLIB;
 					LedStepRight();}
 				else{
+					sServo.uiCurrentPosition=0;
+					sServo.uiDesiredPosition=0;
 					sServo.eState = IDLE;}
 				break;
 					
@@ -60,12 +50,11 @@ void Automat(void){
 				break;
 			
 			case IN_PROGRESS :
-				if(sServo.uiCurrentPosition < sServo.uiDesiredPosition){
+				if(sServo.uiCurrentPosition != sServo.uiDesiredPosition){
 					LedStepLeft();
-					sServo.uiCurrentPosition++; }
-				else if(sServo.uiCurrentPosition > sServo.uiDesiredPosition){
-					LedStepRight();
-					sServo.uiCurrentPosition--;}
+					sServo.uiCurrentPosition++;
+					sServo.uiCurrentPosition%=48;}
+					
 				else{
 					sServo.eState = IDLE;}
 				break;		
@@ -73,19 +62,27 @@ void Automat(void){
 			default:
 				break;
 			}
-		//Delay(100);
-		//}
 	}
 
 void ServoInit(unsigned int uiServoFrequency){
 	Timer1Interrupts_Init((1000000/uiServoFrequency), &Automat); //spytac jak szybko na plytce
+	LedInit();
 	DetectorInit();
+	ServoCallib();
 }
 	
 void ServoCallib(void){
+	
 	sServo.eState = CALLIB;
+	while(sServo.eState!=IDLE){}
 }
 
 void ServoGoTo(unsigned int uiPosition){
+	
 	sServo.uiDesiredPosition = uiPosition;
+	sServo.eState = IN_PROGRESS;
+	while(sServo.eState!=IDLE){}
 }
+	
+	
+	
