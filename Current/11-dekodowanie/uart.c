@@ -113,11 +113,11 @@ enum eReceiverStatus eReceiver_GetStatus(void){
 	return sBuffer.eStatus ;
 }
 
-void Receiver_GetStringCopy(char *cDestination){
+void Receiver_GetStringCopy(char cDestination[]){
 	unsigned char ucCharCounter;
 	char *cData = sBuffer.cData ;
 	for(ucCharCounter=0;sBuffer.cData[ucCharCounter] != '\0';ucCharCounter++){
-		cDestination = cData+ucCharCounter;
+		cDestination[ucCharCounter] = cData[ucCharCounter];
 	}
 	sBuffer.eStatus=EMPTY;
 }
