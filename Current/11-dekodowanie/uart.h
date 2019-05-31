@@ -5,3 +5,4 @@ void Receiver_GetStringCopy(char * ucDestination);
 extern char cOdebranyZnak;
 
 
+
