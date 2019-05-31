@@ -1,6 +1,7 @@
 #include "uart.h"
-#include "lanc-op-proste_mod.h"
+#include "string.h"
 #include "servo.h"
+#include "command_decoder.h"
 
 
 enum eReceiverStatus {EMPTY, READY, OVERFLOW}; 
@@ -10,26 +11,29 @@ int main(){
 	char ucArray[10];
 	UART_InitWithInt(9600);
 
-	ServoInit(20);
+	ServoInit(2);
 
 
 	
 	while(1){
 		
-		if(eReceiver_GetStatus()==READY){
+		if(eReceiver_GetStatus()==READY){ 
 			Receiver_GetStringCopy(ucArray);
-		}
+			
+			DecodeMsg(ucArray);
+		}	
+		switch(asToken[0].uValue.eKeyword){
 		
-		if(eCompareString("callib",ucArray)==EQUAL){
-			ServoCallib();}
+			case(CALLIB):
+				ServoCallib();
+				break;
 			
-		else if(eCompareString("left",ucArray)==EQUAL){
-			ServoGoTo(12);}
+			case(GOTO):
+				ServoGoTo(asToken[1].uValue.uiNumber);
+				break;
 			
-		else if(eCompareString("right",ucArray)==EQUAL){
-			ServoGoTo(36);}
-			
-			
-			
-		}
+			default:
+				break;
+			}
+	}
 }
