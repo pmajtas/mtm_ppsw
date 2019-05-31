@@ -2,7 +2,7 @@
 #include "string.h"
 
 #define MAX_TOKEN_NR 2	
-#define MAX_KEYWORD_LENGHT 6
+#define MAX_KEYWORD_LENGHT 12
 
 
 

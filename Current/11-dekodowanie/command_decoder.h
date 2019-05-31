@@ -3,7 +3,7 @@
 void DecodeMsg(char *pcString);
 
 enum eTokenType {KEYWORD, NUMBER, STRING};
-enum KeywordCode {CALLIB, GOTO};
+enum KeywordCode {CALLIB, GOTO, IDLE};
 
 union TokenValue{
 	unsigned int uiNumber;

@@ -8,10 +8,10 @@ enum eReceiverStatus {EMPTY, READY, OVERFLOW};
 enum eReceiverStatus eStatus;
  
 int main(){
-	char ucArray[10];
+	char ucArray[12];
 	UART_InitWithInt(9600);
 
-	ServoInit(2);
+	ServoInit(40);
 
 
 	
@@ -30,6 +30,7 @@ int main(){
 				
 				case(GOTO):
 					ServoGoTo(asToken[1].uValue.uiNumber);
+					asToken[1].uValue.uiNumber=0;
 					break;
 				
 				default:

@@ -1,6 +1,7 @@
 #include <LPC210X.H>
 #include "uart.h"
 
+
 /************ UART ************/
 // U0LCR Line Control Register
 #define mDIVISOR_LATCH_ACCES_BIT                   0x00000080
@@ -24,7 +25,7 @@
 #define mIRQ_SLOT_ENABLE                           0x00000020
 
 ////////////// Zmienne globalne ////////////
-#define RECEIVER_SIZE 7
+#define RECEIVER_SIZE 12
 
 char cOdebranyZnak;
 
@@ -115,9 +116,10 @@ enum eReceiverStatus eReceiver_GetStatus(void){
 
 void Receiver_GetStringCopy(char cDestination[]){
 	unsigned char ucCharCounter;
-	char *cData = sBuffer.cData ;
+
 	for(ucCharCounter=0;sBuffer.cData[ucCharCounter] != '\0';ucCharCounter++){
-		cDestination[ucCharCounter] = cData[ucCharCounter];
+		cDestination[ucCharCounter] = sBuffer.cData[ucCharCounter];
 	}
+	cDestination[ucCharCounter]= '\0';
 	sBuffer.eStatus=EMPTY;
 }
