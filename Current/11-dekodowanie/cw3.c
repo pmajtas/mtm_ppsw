@@ -21,19 +21,20 @@ int main(){
 			Receiver_GetStringCopy(ucArray);
 			
 			DecodeMsg(ucArray);
-		}	
-		switch(asToken[0].uValue.eKeyword){
-		
-			case(CALLIB):
-				ServoCallib();
-				break;
 			
-			case(GOTO):
-				ServoGoTo(asToken[1].uValue.uiNumber);
-				break;
+			switch(asToken[0].uValue.eKeyword){
 			
-			default:
-				break;
+				case(CALLIB):
+					ServoCallib();
+					break;
+				
+				case(GOTO):
+					ServoGoTo(asToken[1].uValue.uiNumber);
+					break;
+				
+				default:
+					break;
 			}
+		}
 	}
 }
