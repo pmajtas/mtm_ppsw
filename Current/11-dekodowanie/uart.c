@@ -29,7 +29,7 @@
 
 char cOdebranyZnak;
 
-enum eReceiverStatus {EMPTY, READY, OVERFLOW};
+//enum eReceiverStatus {EMPTY, READY, OVERFLOW};
 
 struct ReceiverBuffer{
 	

@@ -4,8 +4,8 @@
 #include "command_decoder.h"
 
 
-enum eReceiverStatus {EMPTY, READY, OVERFLOW}; 
-enum eReceiverStatus eStatus;
+//enum eReceiverStatus {EMPTY, READY, OVERFLOW}; 
+//enum eReceiverStatus eStatus;
  
 int main(){
 	char ucArray[12];
