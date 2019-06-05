@@ -4,15 +4,17 @@
 #include "command_decoder.h"
 
 
-//enum eReceiverStatus {EMPTY, READY, OVERFLOW}; 
+//enum eReceiverStatus {EMPTY, READY, OVERFLOW};   
 //enum eReceiverStatus eStatus;
  
 int main(){
+	
 	char ucArray[12];
+	unsigned int uiPosition=0;
 	UART_InitWithInt(9600);
 
-	ServoInit(40);
-
+	ServoInit(50);
+	
 
 	
 	while(1){
@@ -22,19 +24,29 @@ int main(){
 			
 			DecodeMsg(ucArray);
 			
-			switch(asToken[0].uValue.eKeyword){
-			
-				case(CALLIB):
-					ServoCallib();
-					break;
+			if((ucTokenNumber !=0)&&(asToken[0].eType == KEYWORD)){
 				
-				case(GOTO):
-					ServoGoTo(asToken[1].uValue.uiNumber);
-					asToken[1].uValue.uiNumber=0;
-					break;
+				switch(asToken[0].uValue.eKeyword){
 				
-				default:
-					break;
+					case(CALIB):
+						ServoCallib();
+						break;
+					
+					case(GOTO):
+						uiPosition = asToken[1].uValue.uiNumber;
+						uiPosition %=48;
+						ServoGoTo(uiPosition);
+						
+						break;
+					
+					case(SHIFT):
+						uiPosition +=asToken[1].uValue.uiNumber;
+						uiPosition %=48;
+						ServoGoTo(uiPosition);
+						
+					default:
+						break;
+				}
 			}
 		}
 	}

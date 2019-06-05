@@ -6,8 +6,8 @@
 
 
 
-/*enum eTokenType {KEYWORD, NUMBER, STRING};
-enum KeywordCode {CALLIB, GOTO};*/
+/*enum eTokenType {KEYWORD, NUMBER, STRING};*/
+//enum KeywordCode { GOTO,SHIFT,CALLIB};
 
 
 
@@ -23,15 +23,18 @@ struct Keyword{
 
 struct Token asToken[MAX_TOKEN_NR];
 
-struct Keyword asKeywordList[]={
-	{CALLIB, "callib"},
-	{GOTO, "goto"} };
+struct Keyword asKeywordList[]=
+{
+	{CALIB, "callib"},
+	{GOTO, "goto"},
+	{SHIFT, "shift"}
+};
 	
 unsigned char ucTokenNumber;
 
 
 
-unsigned char ucFindTokensInString(char *pcString) {
+unsigned char ucFindTokensInString(char *pcStr) {
 	
 	unsigned char ucCharCounter;
 	unsigned char ucTokenCounter=0;
@@ -43,7 +46,7 @@ unsigned char ucFindTokensInString(char *pcString) {
 	
 	for(ucCharCounter=0;;ucCharCounter++){
 
-		cCurrentChar = *(pcString+ucCharCounter);
+		cCurrentChar = pcStr[ucCharCounter];
 
 		switch (eState) {
 			case(DELIMITER):
@@ -55,7 +58,7 @@ unsigned char ucFindTokensInString(char *pcString) {
 				}
 				else {
 					eState = TOKEN;
-					asToken[ucTokenCounter].uValue.pcString = (pcString+ucCharCounter);
+					asToken[ucTokenCounter].uValue.pcString = (pcStr+ucCharCounter);
 					ucTokenCounter++;
 					break;
 				}
@@ -102,6 +105,9 @@ void DecodeTokens(void){
 			psVal->eType = STRING;
 		}
 	}
+	if((asToken[0].uValue.eKeyword== GOTO)||(asToken[0].uValue.eKeyword==CALIB)||(asToken[0].uValue.eKeyword==SHIFT)){
+		asToken[0].eType = KEYWORD; }
+	
 }
 
 void DecodeMsg(char *pcString){

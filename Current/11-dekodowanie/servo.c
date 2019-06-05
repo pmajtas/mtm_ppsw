@@ -5,16 +5,27 @@
 
 #define P10_bm (1<<10)
 
-enum ServoState{CALLIB,IDLE, IN_PROGRESS};
 	
+	/*struct Servo {
+		
+		enum ServoState eState; 
+		unsigned int uiCurrentPosition;
+		unsigned int uiDesiredPosition;
+	};*/
+	
+	enum ServoState{CALLIB,IDLE, IN_PROGRESS};
+
+
 	struct Servo {
+		
 		enum ServoState eState; 
 		unsigned int uiCurrentPosition;
 		unsigned int uiDesiredPosition;
 	};
-	
-	struct Servo sServo;
-	
+struct Servo sServo;
+
+unsigned int uiPosition ;
+
 
 void DetectorInit(void){
 	IO0DIR = IO0DIR & ~(P10_bm);
@@ -78,10 +89,11 @@ void ServoCallib(void){
 }
 
 void ServoGoTo(unsigned int uiPosition){
+
+		sServo.uiDesiredPosition = uiPosition;
+		sServo.eState = IN_PROGRESS;
+		while(sServo.eState!=IDLE){}
 	
-	sServo.uiDesiredPosition = uiPosition;
-	sServo.eState = IN_PROGRESS;
-	while(sServo.eState!=IDLE){}
 }
 	
 	

@@ -3,7 +3,8 @@
 void DecodeMsg(char *pcString);
 
 enum eTokenType {KEYWORD, NUMBER, STRING};
-enum KeywordCode {CALLIB, GOTO, IDLE};
+
+enum KeywordCode {GOTO,CALIB,SHIFT};
 
 union TokenValue{
 	unsigned int uiNumber;
@@ -17,3 +18,6 @@ typedef struct Token{
 	} Token;
 
 extern struct Token asToken[MAX_TOKEN_NR];
+
+extern unsigned char ucTokenNumber;
+
